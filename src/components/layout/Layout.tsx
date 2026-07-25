@@ -8,6 +8,7 @@
 // =========================================================================
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
+import Navbar from '../nav/navbar/Navbar';
 
 const Layout: React.FC = () => {
   // Capture the browser's current active URL location track snapshot
@@ -28,15 +29,8 @@ const Layout: React.FC = () => {
       {/* GLOBAL NAVIGATION CONTROL CENTRE
           Renders your custom navigation dashboard frame on all standard pages,
           but vanishes entirely when students view the login/registration splash screens. */}
-      {!shouldHideNavbar && (
-        <nav className="global_navbar">
-          {/* 🌟 PLACE YOUR NEW NAVBAR COMPONENT CODE BOX RIGHT HERE TOMORROW! */}
-          <div style={{ padding: '20px', background: '#1e1e24', color: '#ffffff' }}>
-            <strong>Rennlad Academy Navigation Node (Placeholder)</strong>
-          </div>
-        </nav>
-      )}
-
+      {!shouldHideNavbar && <Navbar />}
+      
       {/* MAIN VIEWPORT ROUTING GATEWAY
           Acts as the active presentation frame container. React Router swaps
           interior sub-views (like HomePage, ProfilePage, or QuizPage) directly
