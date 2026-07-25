@@ -1,0 +1,133 @@
+/* Outside container for the authdisplay component */
+.authDisplay_container {
+    height: 100%;
+    width: 70%;
+    flex-basis: 50%;
+    margin: auto;
+    border-radius: 10px;
+
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 0 1.5rem;
+    overflow: hidden;
+}
+
+/* Video in the authdisplay */
+.auth_video {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    object-fit: cover;
+}
+
+/* Container for the text banner */
+.display_banner {
+    position: relative;
+}
+
+/* Heading on the text banner */
+.banner_title {
+    color: hsl(0, 0%, 100%);
+    font-size: 35px;
+    font-weight: 800;
+}
+
+/* Text underneath the heading on the text banner */
+.banner_text {
+    color: hsl(0, 0%, 100%);
+    font-weight: 400;
+    padding: 1rem;
+}
+
+/* Container for the log in / register page link*/
+.link_container {
+    height: 60px;
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    background: rgba(255, 255, 255, 0.248);
+    backdrop-filter: blur(1px);
+}
+
+/* Text for the log in / register page link */
+.link_text {
+    color: hsl(0, 0%, 100%);
+}
+
+/* Log in / Register page link */
+.link_button {
+    border: none;
+    outline: none;
+    border-radius: 10px;
+
+    padding: .8rem 1.5rem;
+    color: hsl(94, 55%, 56%);
+    background: hsl(0, 0%, 100%);
+    font-weight: 400;
+    transition: .3s ease;
+    cursor: pointer;
+}
+
+/* Hover effect for the link */
+.link_button:hover {
+    color: hsl(0, 0%, 18%);
+    background: hsl(93, 75%, 76%)
+}
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 678px) {
+    .banner_title {
+        font-size: 29px;
+    }
+
+    .banner_text {
+        padding: 1rem;
+    }
+
+    .link_text {
+        font-size: 17px;
+    }
+
+    .link_button {
+        padding: .8rem 1.5rem;
+    }
+}
+
+@media screen and (max-width: 602px) {
+    .authDisplay_container {
+        width: 100%;
+        min-height: 80px;
+    }
+
+    .banner_title {
+        font-size: 20px;
+    }
+
+    .link_button {
+        padding: .4rem 1.5rem;
+    }
+}

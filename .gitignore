@@ -1,0 +1,21 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime Dependency Caches
+node_modules/
+.pnpm-store/
+
+# Vite Caches (CRUCIAL: Prevents checking in your hidden local dev files)
+.vite/
+dist/
+
+# Vitest Coverage Report Folder
+coverage/
+
+# Local Environment Secret Vaults
+.env
+.env.local
+.env.development.local
+.env.production.local

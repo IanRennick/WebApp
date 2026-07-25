@@ -1,0 +1,242 @@
+/* Outer container for the authform component */
+.authForm_container {
+    flex-basis: 50%;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Container for the message above the form */
+.message_container {
+    text-align: center;
+    padding: 1.5rem 0;
+}
+
+/* Spacship image above form */
+.message_image {
+    height: 40px;
+    width: 60%;
+
+    padding-bottom: .5rem;
+}
+
+/* Message above the form */
+.message {
+    font-size: 25px;
+    color: hsl(0, 0%, 18%);
+    font-weight: 600;
+}
+
+/* Log in and regsiter forms */
+.auth_form {
+    display: grid;
+    align-items: center;
+}
+
+/* Error messages from api call failures */
+.error_message {
+    border-radius: 3px;
+    
+    display: block;
+    color: hsl(0, 0%, 100%);
+    background: rgb(255, 0, 0);
+    text-align: center;
+    padding: 10px;
+}
+
+/* Error message isnt shown unless one exists */
+.hide_message {
+    display: none;
+}
+
+/* Form labels */
+.form_label {
+    display: block;
+    padding: .5rem 0;
+    color: hsl(0, 0%, 18%);
+    font-weight: 400;
+    font-size: 14px;
+}
+
+/* Container for the input and little icons */
+.input_container {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: 1rem;
+    background: hsl(16, 12%, 97%);
+}
+
+/* The little icons beside the form inputs */
+.form_icon {
+    font-size: 1.25rem;
+    color: hsl(0, 0%, 75%);
+}
+
+/* Form input fields */
+.form_input {
+    width: 200px;
+    outline: none;
+    border: none;
+
+    background: none;
+}
+
+/* Form submit button */
+.submit_button {
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    margin: 15px 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    padding: .8rem;
+    color: hsl(0, 0%, 100%);
+    background: hsl(94, 55%, 56%);
+    font-size: 16px;
+    cursor: pointer;    
+    transition: .3s ease;
+}
+
+/* Little icon in the submit button */
+.button_icon {
+    font-size: 25px;
+    color: hsl(0, 0%, 100%);
+    cursor: pointer;
+}
+
+/* Hover effect for submit button */
+.submit_button:hover {
+    color: hsl(0, 0%, 18%);
+    background: hsl(93, 75%, 76%);
+    transition: .3s ease;
+
+    .button_icon {
+        color: hsl(0, 0%, 18%);
+        transform: translateX(5px);
+        transition: .3s ease;
+    }
+}
+
+/* Forgot password link */
+.forgot_link {
+    text-decoration: underline;
+}
+
+/* Forgot password text */
+.forgot_password {
+    text-align: center;
+    font-size: 13px;
+    color: hsl(0, 0%, 18%);
+    opacity: .7;
+}
+
+/* Container for persist login checkbox */
+.persist_check {
+    margin-top: 10px;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    font-size: 0.75rem;
+}
+
+/* Persist login label */
+.persist_label {
+    margin: 0;
+}
+
+/* Persist loging checkbox */
+[type="checkbox"] {
+    height: 20px;
+    width: 20px;
+    margin: 0 5px 2px 2px;
+}
+
+
+
+/* Instructions that pop up when input value doesnt meet requirements */
+.instructions {
+    position: relative;
+    max-width: 260px;
+    bottom: -5px;
+    border-radius: 0.5rem;
+
+    font-size: 0.75rem;
+    background: #000;
+    color: #fff;
+    padding: 0.25rem;
+}
+
+.instructions > svg {
+    margin-right: 0.25rem;
+}
+
+
+.offscreen {
+    position: absolute;
+    left: -9999px;
+}
+
+
+
+/* Hides instructions */
+.hide {
+    display: none;
+}
+
+/* Valid Input */
+.valid {
+    margin-left: 0.25rem;
+
+    color: limegreen;
+}
+
+/* Invalid Input */
+.invalid {
+    margin-left: 0.25rem;
+
+    color: red;
+}
+
+
+
+
+
+
+
+@media screen and (max-width: 678px) {
+    .message_container {
+        padding: 1.5rem 0;
+    }
+
+    .message {
+        font-size: 20px;
+    }
+
+    .input_container {
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .instructions {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+@media screen and (max-width: 602px) {
+    .message_container {
+        padding: 1rem 0;
+    }
+
+    .message_image {
+        width: 40px;
+    }
+}

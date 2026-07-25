@@ -1,0 +1,31 @@
+/* Outside container for the auth component */
+.auth_container {
+    height: 85vh;
+    min-height: 520px;
+    width: 60%;
+    margin: auto;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: hsl(0, 0%, 91%);
+}
+
+
+
+
+@media screen and (max-width: 927px) {
+    .auth_container {
+        width: 85%;
+    }
+}
+
+@media screen and (max-width: 602px) {
+    .auth_container {
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+}
