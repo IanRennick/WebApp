@@ -1,0 +1,243 @@
+/*Outer Container*/
+.navbar {
+    background: #1c2237;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+/*Navbar Container*/
+.navbar_container {
+    background: #1c2237;
+
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    z-index: 1;
+    width: 100%;
+    max-width: 1300px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 50px;
+    padding-left: 50px;
+}
+
+
+/* Menu Container */
+.navbar_menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    text-align: center;
+    justify-content: end;
+}
+
+/* Logo Container */
+.navbar_logo {
+    color: #fff;
+    justify-self: start;
+    text-decoration: none;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Logo Icon */
+.logo_icon {
+    margin-right: 0.5rem;
+}
+
+/* Menu Icon Container */
+.navbar_toggle {
+    display: none;
+}
+
+/* Open Menu Icon */
+.toggle_icon2 {
+    color: white;
+}
+
+
+/* Container for the Search bar */
+.menu_search_container {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* Search bar*/
+.search_input {
+    height: 2.1rem;
+    width: 300px;
+    border: none;
+    font-size: 1.2rem;
+    text-align: center;
+    border-radius: 35px;
+    outline: none;
+    background: white;
+}
+
+
+/* Container for each Link */
+.menu_link_container {
+    height: 80px;
+    border-bottom: 2px solid transparent;
+}
+
+/* Creates an effect under each container when hovered over */
+.menu_link_container:hover {
+    border-bottom: 2px solid white;
+}
+
+/* Stylings for the options */
+.menu_link {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* Styling for the log in button */
+.menu_button {
+    padding: 8px 20px;
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    background-color: transparent;
+    color: #fff;
+    padding: 8px 20px;
+    border: 1px solid white;
+    transition: all 0.3s ease-out;
+    font-size: 1.2rem;
+    text-decoration: none;
+}
+
+/* Hover effect for the log in button */
+.menu_button:hover {
+    transition: all 0.3s ease-out;
+    background: #fff;
+    color: #242424;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* CSS settings for Mobile */
+@media screen and (max-width: 1200px) {
+    .navbar_logo {
+        font-size: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 1115px) {
+    .menu_search_container {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    /* Menu Container */
+    .navbar_menu {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 90vh;
+        position: absolute;
+        top: 80px;
+        left: -100%;
+        opacity: 1;
+        transition: all 0.5s ease;
+        justify-content: center; 
+    }
+
+    /* Showing menu when active */
+    .navbar_menu.active {
+        background: #1c2237;
+        left: 0;
+        opacity: 1;
+        transition: all 0.6s ease;
+        z-index: 1;
+    }
+
+    /* Menu Icon Container */
+    .navbar_toggle {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(-100%, 60%);
+        font-size: 1.8rem;
+        cursor: pointer;
+    }
+
+    /* Close Menu Icon */
+    .toggle_icon1 {
+        color: #fff;
+        font-size: 2rem;
+    }
+
+    .menu_search_container {
+        justify-content: center;
+    }
+
+     /* Container for each link */
+    .navbar_option_container {
+        width: 100%;
+    }
+
+    /* Hiding border on option container when hovered over */
+    .navbar_option_container:hover {
+        border: none;
+    }
+
+    /* Navbar Link */
+    .navbar_link {
+        text-align: center;
+        padding: 2rem;
+        width: 100%;
+        display: table;
+    }
+
+    /* Navbar Link hover effects in menu */
+    .navbar_link:hover {
+        color: #f00946;
+        transform: scale(1.2);
+        transition: all 0.3s ease;
+    }
+
+    /* Log In Button container stylings for menu mode */
+    .menu_button_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 120px;
+    }
+}

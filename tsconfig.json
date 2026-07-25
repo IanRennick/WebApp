@@ -1,7 +1,15 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    // ... your other options remain exactly the same
+  },
+  /* ✅ ADD THIS BLOCK AT THE BOTTOM (Outside compilerOptions) */
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage"
   ]
 }
