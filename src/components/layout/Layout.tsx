@@ -9,6 +9,7 @@
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from '../nav/navbar/Navbar';
+import Footer from '../nav/footer/Footer';
 
 const Layout: React.FC = () => {
   // Capture the browser's current active URL location track snapshot
@@ -39,6 +40,7 @@ const Layout: React.FC = () => {
         <Outlet />
       </main>
 
+      {!shouldHideNavbar && <Footer />}
     </div>
   );
 };
