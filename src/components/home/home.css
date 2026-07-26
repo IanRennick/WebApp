@@ -1,0 +1,275 @@
+.hero_container {
+    background: #0c0c0c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 30px;
+    height: 800px;
+    position: relative;
+    z-index: 1;
+    margin-top: -80px;
+}
+
+.hero_container:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%),
+        linear-gradient(180deg, rgba(0,0,0,0.2) 0%, transparent 100%);
+    z-index: 2;
+}
+
+.heroBg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.videoBg {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    background: #232a34;
+}
+
+.hero_content {
+    z-index: 3;
+    max-width: 1200;
+    position: absolute;
+    padding: 8px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero_heading {
+    color: #fff;
+    text-align: center;
+    font-size: 48px;
+}
+
+.hero_para {
+    margin-top: 24px;
+    color: #fff;
+    font-size: 24px;
+    text-align: center;
+    max-width: 600px;
+}
+
+.btn_wrapper {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info_container {
+    color: #fff;
+}
+
+.bgDark {
+    background: #010606;
+}
+
+.bgLight{
+    background: #f9f9f9;
+}
+
+.info_wrapper {
+    display: grid;
+    z-index: 1;
+    height: 860px;
+    width: 100%;
+    max-width: 1100;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0 24px;
+    justify-content: center;
+}
+
+.info_row {
+    display: grid;
+    grid-auto-columns: minmax(auto, 1fr);
+    align-items: center;
+}
+
+.start {
+    grid-template-areas: 'col1 col2';
+}
+
+.end {
+    grid-template-areas: 'col2 col1';
+}
+
+.column1 {
+    margin-bottom: 15px;
+    padding: 0 15px;
+    grid-area: col1;
+}
+
+.column2 {
+    margin-bottom: 15px;
+    padding: 0 15px;
+    grid-area: col2;
+}
+
+.text_wrapper {
+    max-width: 540px;
+    padding-top: 0;
+    padding-bottom: 60px;
+}
+
+.top_line {
+    color: #01bf71;
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.heading {
+    margin-bottom: 24px;
+    font-size: 48px;
+    line-height: 1.1;
+    font-weight: 600;
+    padding: 1rem;
+}
+
+.light-text {
+    color: #f7f8fa
+}
+
+.dark-text {
+    color: #010606
+}
+
+.subtitle {
+    max-width: 440px;
+    margin-bottom: 35px;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.btn_wrap {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.image_wrap {
+    max-width: 555px;
+    height: 100%;
+}
+
+.image {
+    width: 100%;
+    margin: 0 0 10px 0;
+    padding-right: 0;
+}
+
+.home_button {
+    border-radius: 50px;
+    outline: none;
+    border: none;
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    font-size: 20px;
+    /*small 16px*/
+    padding: 14px 48px;
+    /*small 16px*/
+    padding: 12px 30px;
+}
+
+.green {
+    background: #01BF71;
+    color: #010606
+}
+
+.green:hover {
+    transition: all 0.2s ease-in-out;
+    background: #fff;
+}
+
+.dark {
+    background: #010606;
+    color: #fff;
+}
+
+.dark:hover {
+    transition: all 0.2s ease-in-out;
+    background: #01BF71;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* CSS settings for Mobile */
+@media screen and (max-width: 768px) {
+    .hero_heading {
+        font-size: 40px;
+    }
+
+    .hero_para {
+        font-size: 24px;
+    }
+
+    .info_container {
+        padding: 100px 0;
+    }
+
+    .start {
+        grid-template-areas: 'col1' 'col2';
+    }
+    
+    .end {
+        grid-template-areas: 'col1 col1' 'col2 col2';
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .hero_heading {
+        font-size: 32px;
+    }
+
+    .hero_para {
+        font-size: 18px;
+    }
+
+    .heading {
+        font-size: 32px;
+    }
+}

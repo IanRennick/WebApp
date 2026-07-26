@@ -3,12 +3,12 @@
     "target": "ES2022",
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    // ... your other options remain exactly the same
   },
-  /* ✅ ADD THIS BLOCK AT THE BOTTOM (Outside compilerOptions) */
+  /* ✅ FIXED: Ensures the background compiler never enters your hidden local dev files */
   "exclude": [
     "node_modules",
     "dist",
+    ".vite",
     "build",
     "coverage"
   ]
