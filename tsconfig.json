@@ -2,6 +2,9 @@
   "compilerOptions": {
     "target": "ES2022",
     "useDefineForClassFields": true,
+    /* ✅ FIXED: Explicitly commands TypeScript to permit React HTML elements inside your files */
+    "jsx": "react-jsx", 
+    "moduleResolution": "bundler",
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
   },
   /* ✅ FIXED: Ensures the background compiler never enters your hidden local dev files */

@@ -48,14 +48,21 @@
     width: 100%;
 }
 
-.correct {
+.puzzle_option.correct,
+.puzzle_input.correct {
     background: #dffff2;
     border-color: #00d397;
 }
 
-.wrong {
+.puzzle_option.incorrect,
+.puzzle_input.incorrect {
     background: #FFEBEB;
     border-color: #FF4A4A;
+}
+
+.puzzle_option.selected {
+    background: #E6F4FE;
+    border-color: #0084FF;
 }
 
 .next_button {

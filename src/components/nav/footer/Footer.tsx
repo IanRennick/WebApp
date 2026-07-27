@@ -24,10 +24,10 @@ const Footer: React.FC = () => {
             {/* PUZZLE VARIANT ANCHOR LINKS */}
             <div className="link_items">
               <h1 className="link_title">Puzzles</h1>
-              <Link to="/quiz" className="footer_link">Multiple Choice</Link>
-              <Link to="/quiz" className="footer_link">Open Cloze</Link>
-              <Link to="/quiz" className="footer_link">Word Formation</Link>
-              <Link to="/quiz" className="footer_link">Sentence Cloze</Link>
+              <Link to="/quiz?kind=multiple_choice" className="footer_link">Multiple Choice</Link>
+              <Link to="/quiz?kind=open_cloze" className="footer_link">Open Cloze</Link>
+              <Link to="/quiz?kind=word_formation" className="footer_link">Word Formation</Link>
+              <Link to="/quiz?kind=sentence_cloze" className="footer_link">Sentence Cloze</Link>
             </div>
 
             {/* CURRICULUM PRACTICE TRACKS */}
@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
               <Link to="/" className="footer_link">Exams</Link>
               <Link to="/" className="footer_link">Writings</Link>
               <Link to="/" className="footer_link">Speakings</Link>
-              <Link to="/quiz" className="footer_link">Weaknesses</Link>
+              <Link to="/quiz?mode=weakness" className="footer_link">Weaknesses</Link>
             </div>
           </div>
 

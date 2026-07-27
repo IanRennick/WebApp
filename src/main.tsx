@@ -14,6 +14,7 @@ import App from './App';
 import { store } from './app/store';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ScrollToTop from './components/layout/ScrollToTop';
 
 // -------------------------------------------------------------------------
 // 1. PHYSICAL WINDOW CONTAINER TARGETING
@@ -51,6 +52,10 @@ root.render(
       {/* BROWSER ADDRESS HISTORY DRIVER
           Grabs control of your browser address bar history timeline tracks. */}
       <BrowserRouter>
+        {/* Plug the scroll listener right at the crown of your router ecosystem.
+            It will silently reset scroll heights on every single click event! */}
+        <ScrollToTop />
+
         <Routes>
           
           {/* WILDCARD APP HAND-OFF GATEWAY
