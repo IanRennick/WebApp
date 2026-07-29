@@ -1,0 +1,173 @@
+.global_comments_wrapper_card {
+  margin-top: 30px; 
+  border-top: 1px solid #e2e8f0; 
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e2e8f0;
+}
+
+.comment_title {
+  margin-bottom: .75rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  /* Dark charcoal to show up beautifully on your white background */
+  color: #0f172a; 
+}
+
+.form_row {
+  display: flex;
+  gap: .5rem;
+}
+
+.comment_input {
+  flex-grow: 1;
+  resize: none;
+  height: 70px;
+  border-radius: .5em;
+  padding: .5em;
+  font-size: inherit;
+  font-family: inherit;
+  border: 2px solid #e2e8f0;
+  background: #ffffff;
+  /* Charcoal text colour so it is 100% visible inside the inputs */
+  color: #334155; 
+  line-height: 1.4;
+  outline: none;
+}
+
+.comment_input:focus {
+  border-color: #2563eb;
+}
+
+.comment_button {
+  padding: .5em 1.2em;
+  background: #2563eb;
+  border: none;
+  color: white;
+  border-radius: .5em;
+  font-size: .85em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.comment_button:hover {
+  background: #1d4ed8;
+}
+
+.comment_button[disabled] {
+  background: #cbd5e1;
+  color: #94a3b8;
+  cursor: not_allowed;
+}
+
+.icon_button {
+  background: transparent;
+  border: none;
+  padding: 4px 8px;
+  /* Soft elegant gray default text color for buttons */
+  color: #64748b; 
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 100ms ease;
+}
+
+.icon_button:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.icon_button.danger:hover {
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+.comment_thread {
+  margin: .75rem 0;
+}
+
+.comment_container {
+  padding: .75rem;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  border-radius: .5rem;
+}
+
+.comment_header {
+  color: #64748b;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: .25rem;
+  font-size: .8em;
+}
+
+.comment_name {
+  font-weight: bold;
+  color: #334155;
+}
+
+.date {
+  color: #94a3b8;
+}
+
+/* ✅ ITEM D: PURE VISIBLE SLATE TEXT COLOR */
+.message {
+  white-space: pre-wrap;
+  margin-left: .25rem;
+  margin-right: .25rem;
+  color: #334155 !important; /* Forces rich visible contrast text color */
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.comment_footer {
+  display: flex;
+  gap: .5rem;
+  margin-top: .5rem;
+}
+
+.nested_comments {
+  padding-left: .5rem;
+  flex-grow: 1;
+}
+
+.nested_thread {
+  display: flex;
+}
+
+.collapse_line {
+  border: none;
+  background: none;
+  padding: 0;
+  width: 20px;
+  margin-top: .25rem;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  transform: translateX(-50%);
+}
+
+.collapse_line:hover::before {
+  background-color: #2563eb;
+}
+
+.collapse_line::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background-color: #e2e8f0;
+  transition: background-color 100ms ease-in-out;
+}
+
+.hide {
+  display: none !important;
+}

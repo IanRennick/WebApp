@@ -1,90 +1,216 @@
 .puzzle_container {
-    width: 640px;
-    margin: auto;
-    background: white;
-    color: #262626;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    border-radius: 10px;
-    padding: 40px 50px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  /* ✅ FIXED: Commands the puzzle card to occupy 100% of the main column height (500px) on desktop */
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.puzzle_card_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.puzzle_type {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* Utility Action Buttons Layout Styles */
+.puzzle_action_utility_strip {
+  display: flex;
+  gap: 12px;
+}
+
+.utility_strip_btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 150ms ease;
+}
+
+.utility_strip_btn:hover {
+  color: #2563eb;
+}
+
+.utility_strip_btn.danger_hover:hover {
+  color: #ef4444;
 }
 
 .puzzle_type_hr {
-    height: 2px;
-    border: none;
-    background: #707070;
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 12px 0 16px 0;
 }
 
-
-.puzzle_main {
-    font-size: 27px;
-    font-weight: 500;
-    text-align: center;
-}
-
+/* Secondary Typography Metadata Blocks Styling */
 .keyword {
-    font-size: 30px;
-    font-weight: 800;
-    text-align: center;
+  font-size: 1rem;
+  color: #475569;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.keyword_token {
+  font-weight: bold;
+  color: #0f172a;
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
 }
 
 .prompt {
-    font-size: 27px;
-    font-weight: 500;
-    text-align: center;
+  font-size: 1rem;
+  color: #64748b;
+  font-style: italic;
+  line-height: 1.4;
+  margin-bottom: 16px;
 }
 
-.puzzle_input {
-    display: flex;
-    align-items: center;
-    height: 70px;
-    padding-left: 15px;
-    border: 1px solid #686868;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    font-size: 20px;
-    text-align: center;
-    width: 100%;
+/* Main Core Clause Sentence Presentation Block */
+.puzzle_main {
+  font-size: 1.35rem;
+  line-height: 1.6;
+  color: #0f172a;
+  font-weight: 500;
+  margin: 20px 0;
+}
+
+/* ✅ NEW: REAL-TIME INLINE SUB-SPAN HIGHLIGHTS TEXT COLORS */
+.sentence_blank_span {
+  text-decoration: underline;
+  padding: 0 4px;
+  transition: color 150ms ease;
+}
+
+.text_blue_typing {
+  color: #2563eb;
+  font-weight: bold;
+}
+
+.text_green_bold {
+  color: #16a34a;
+  font-weight: bold;
+}
+
+.text_red_bold {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+/* Multiple Choice Selection Grid List Layout */
+.options_list_wrapper {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.puzzle_option {
+  padding: 12px 16px;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #334155;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 150ms ease;
+}
+
+.puzzle_option:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+/* Compound Class Selector Specifity overrides */
+.puzzle_option.selected {
+  background: #eff6ff;
+  border-color: #2563eb;
+  color: #1d4ed8;
 }
 
 .puzzle_option.correct,
 .puzzle_input.correct {
-    background: #dffff2;
-    border-color: #00d397;
+  background: #f0fdf4;
+  border-color: #16a34a;
+  color: #14532d;
 }
 
 .puzzle_option.incorrect,
 .puzzle_input.incorrect {
-    background: #FFEBEB;
-    border-color: #FF4A4A;
+  background: #fef2f2;
+  border-color: #dc2626;
+  color: #7f1d1d;
 }
 
-.puzzle_option.selected {
-    background: #E6F4FE;
-    border-color: #0084FF;
+/* Text Input Area Form Fields */
+.text_input_wrapper {
+  margin: 20px 0;
 }
 
+.puzzle_input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #0f172a;
+  font-family: inherit;
+  outline: none;
+  transition: all 150ms ease;
+}
+
+.puzzle_input:focus {
+  border-color: #2563eb;
+}
+
+.puzzle_input:disabled {
+  cursor: not_allowed;
+}
+
+/* Primary Form Action Button Controller */
 .next_button {
-    margin: auto;
-    width: 250px;
-    height: 65px;
-    background: #553f9a;
-    color: #fff;
-    font-size: 25px;
-    font-weight: 500;
-    border-radius: 8px;
-    cursor: pointer;
+  width: 100%;
+  padding: 14px;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 150ms ease;
+  /* ✅ FIXED: Guarantees your action button sits flush right at the bottom edge anchor line */
+  margin-top: auto; 
 }
 
-.puzzle_option {
-    display: flex;
-    align-items: center;
-    height: 70px;
-    padding-left: 15px;
-    border: 1px solid #686868;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    font-size: 20px;
-    cursor: pointer;
+.next_button:hover {
+  background: #1d4ed8;
+}
+
+.next_button:disabled {
+  background: #cbd5e1;
+  color: #94a3b8;
+  cursor: not_allowed;
+}
+
+.utility_strip_btn.flag_active_red {
+  color: #ef4444 !important;
 }

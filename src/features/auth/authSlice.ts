@@ -2,25 +2,30 @@
 // =========================================================================
 // APPLICATION TRANSIENT MEMORY PARTITION (AUTHENTICATION STATE SLICE)
 // =========================================================================
-// - Manages the presence of short-term bearer tokens inside the browser memory.
-// - Handles updating active session markers when logins or silent refreshes occur.
-// - flushes internal memory cells entirely during account logouts.
-// =========================================================================
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
+// ✅ NEW: Strict interface representing your synchronized Rails user profile schema
+export interface UserProfileData {
+  username: string;
+  rating: number;
+  cefrLevel: string;
+  unreadNotificationsCount: number;
+}
+
 interface AuthState {
   token: string | null;
+  user: UserProfileData | null; // ✅ NEW: Global User Profile State Cell Anchor
 }
 
 interface SetCredentialsPayload {
   token: string;
+  user: UserProfileData | null; // ✅ NEW: Captured from the updated Rails controller response
 }
 
-// Establishes a secure baseline environment: when the app reboots or initializes,
-// it locks the app behind an unauthenticated state until a token arrives.
 const initialState: AuthState = {
   token: null,
+  user: null,
 };
 
 const authSlice = createSlice({
@@ -30,40 +35,48 @@ const authSlice = createSlice({
     // ---------------------------------------------------------------------
     // 1. DATA CACHE REGISTRATION ACTION (SET CREDENTIALS)
     // ---------------------------------------------------------------------
-    // Receives incoming token strings from successful login or refresh 
-    // network calls, writing the key directly into reactive frontend memory.
-    // ---------------------------------------------------------------------
     setCredentials: (state, action: PayloadAction<SetCredentialsPayload>) => {
-      const { token } = action.payload;
+      const { token, user } = action.payload;
       state.token = token;
+      state.user = user;
     },
 
     // ---------------------------------------------------------------------
     // 2. DATA CACHE FLUSH ACTION (REMOVE CREDENTIALS)
     // ---------------------------------------------------------------------
-    // Instantly purges short-term session access tokens from active memory arrays,
-    // immediately triggering your route shields to lock down the interface.
-    // ---------------------------------------------------------------------
     removeCredentials: (state) => {
       state.token = null;
+      state.user = null; // Clean out user profile memory context on logout
+    },
+
+    // ---------------------------------------------------------------------
+    // 3. ✅ NEW: ACTIVE USER METRICS INTERCEPTOR (UPDATE USER METRICS)
+    // ---------------------------------------------------------------------
+    // Allows components like Puzzle.tsx to dynamically update the user's running
+    // global rating or notifications directly inside state memory on submission cycles!
+    // ---------------------------------------------------------------------
+    updateUserMetrics: (state, action: PayloadAction<Partial<UserProfileData>>) => {
+      if (state.user) {
+        state.user = { ...state.user, ...action.payload };
+      }
     }
   }
 });
 
 // Export atomic execution triggers for distribution to views or hooks
-export const { setCredentials, removeCredentials } = authSlice.actions;
+export const { setCredentials, removeCredentials, updateUserMetrics } = authSlice.actions;
 
 interface RootStateContext {
   auth: AuthState;
 }
 
 // -------------------------------------------------------------------------
-// 3. GLOBAL MEMORY EXTRACTOR WINDOW (STATE SELECTOR)
-// -------------------------------------------------------------------------
-// Exposes a dedicated lookup tunnel used by layout guards and route shields.
-// Allows views to instantly evaluate if a valid user token exists in the central 
-// memory tree without exposing the entire state store to unauthenticated nodes.
+// 4. GLOBAL MEMORY EXTRACTOR WINDOWS (STATE SELECTORS)
 // -------------------------------------------------------------------------
 export const selectCurrentToken = (state: RootStateContext) => state.auth.token;
+
+// ✅ NEW: Synchronous global selector hooks to read user info with zero loading delay
+export const selectCurrentUser = (state: RootStateContext) => state.auth.user;
+export const selectCurrentUserElo = (state: RootStateContext) => state.auth.user?.rating || 1200;
 
 export default authSlice.reducer;

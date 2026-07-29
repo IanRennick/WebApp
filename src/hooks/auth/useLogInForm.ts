@@ -72,7 +72,15 @@ export const useLogInForm = () => {
       const response = await logIn(payload).unwrap();
 
       // Commit the newly returned Bearer access token string down into global memory
-      dispatch(setCredentials({ token: response.access_token }));
+      dispatch(setCredentials({
+        token: response.access_token,
+        user: response.user ? {
+          username: response.user.username,
+          rating: response.user.rating,
+          cefrLevel: response.user.cefr_level,
+          unreadNotificationsCount: response.user.unread_notifications_count
+        } : null
+      }));
 
       // Purge local storage text field input caches cleanly to keep user inputs safe
       resetAuth();

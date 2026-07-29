@@ -241,3 +241,40 @@
         height: 120px;
     }
 }
+
+
+
+
+
+
+
+
+
+
+/* Desktop Display Defaults */
+.navbar_avatar_link_wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  height: 100%;
+  padding: 0 1rem;
+}
+
+/* Custom visibility tuning for MUI elements inside your dark theme layout */
+.navbar_avatar_link_wrapper .MuiBadge-badge {
+  font-family: inherit;
+  font-weight: bold;
+  box-shadow: 0 0 0 2px #1c2237; /* Clean dark-mode border ring around your red numbers */
+}
+
+/* Mobile Breaking Point Layout Alignment Adjustments */
+@media screen and (max-width: 800px) {
+  .navbar_avatar_link_wrapper {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

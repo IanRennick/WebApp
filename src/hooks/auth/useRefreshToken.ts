@@ -8,7 +8,7 @@
 // =========================================================================
 import { useCallback } from 'react';
 import { useAppDispatch } from '../hooks';
-import { useRefreshTokenMutation } from '../../features/auth/authApiSlice';
+import { useRefreshTokenMutation, AuthResponse } from '../../features/auth/authApiSlice';
 import { setCredentials } from '../../features/auth/authSlice';
 
 interface RefreshTokenResponse {
@@ -36,11 +36,18 @@ const useRefreshToken = (): RefreshTokenHookResult => {
     
     // Dispatches a background post call. Doorkeeper will decrypt the secure, 
     // hidden browser cookie jar to validate the request.
-    const response = await refreshToken().unwrap() as RefreshTokenResponse;
+    const response = await refreshToken().unwrap() as AuthResponse;
         
     // Save the brand-new, freshly issued short-term access key straight into memory
-    dispatch(setCredentials({ token: response.access_token }));
-
+    dispatch(setCredentials({
+        token: response.access_token,
+        user: response.user ? {
+          username: response.user.username,
+          rating: response.user.rating,
+          cefrLevel: response.user.cefr_level,
+          unreadNotificationsCount: response.user.unread_notifications_count
+        } : null
+      }));
     // Forward the token response object back up to the calling lifecycle hook
     return response;
   }, [refreshToken, dispatch]);

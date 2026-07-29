@@ -6,6 +6,7 @@ export interface ForumComment {
   author: string;
   body: string;
   timestamp: string;
+  likesCount: number; // ✅ NEW: Total votes counter track
   replies: ForumComment[];
 }
 
@@ -20,6 +21,7 @@ export interface QuestionData {
   options?: string[];   
   keyword?: string;     
   prompt?: string;      
+  rating?: number;
 }
 
 interface QuestionQueryParams {
@@ -30,14 +32,20 @@ interface QuestionQueryParams {
   id?: number | null;
 }
 
-// Define the structure for what we send to the backend
-interface SubmitAnswerPayload {
-  id: number;          // The question ID from the route path parameter
-  answer: string;      // The student's submitted text or selected multiple-choice option
-  mode?: string;        // Optional practice mode flag
+interface CreateCommentPayload {
+  commentableId: number;        
+  commentableType: string;      
+  body: string;                 
+  parentId?: number | null;     
 }
 
-// Define the precise response shape matching your Rails QuestionSubmissionEvaluator service
+interface CreateFlagPayload {
+  commentableId: number;
+  commentableType: 'Question' | 'Writing' | 'Comment';
+  reportType: 'typo' | 'bad_cloze' | 'structural_bug' | 'offensive_comment';
+  body: string;
+}
+
 export interface SubmissionResult {
   score: number;
   fully_correct: boolean;
@@ -45,6 +53,10 @@ export interface SubmissionResult {
   user_new_rating: number;
   elo_change: number;
   already_solved: boolean;
+  // ✅ NEW: Extended Rails Evaluator Service Parameters
+  question_new_rating: number;
+  category_kind_rating: number;
+  category_subtype_rating: number;
 }
 
 export const questionApiSlice = apiSlice.injectEndpoints({
@@ -67,23 +79,59 @@ export const questionApiSlice = apiSlice.injectEndpoints({
       providesTags: [{ type: 'Puzzle' as const }]
     }),
 
-    // Dynamic Mutation Node for processing question grading packages
-    submitAnswer: builder.mutation<SubmissionResult, SubmitAnswerPayload>({
+    submitAnswer: builder.mutation<SubmissionResult, { id: number; answer: string; mode: string }>({
       query: ({ id, answer, mode }) => ({
         url: `/questions/${id}/submit_answer`,
         method: 'POST',
         body: { answer, mode }
       }),
-      // This is the trigger: It shreds the 'Puzzle' cache on submit so the 
-      // subsequent next click pulls a completely fresh, un-cached puzzle from Rails!
       invalidatesTags: [{ type: 'Puzzle' as const }]
     }),
+
+    createComment: builder.mutation<any, CreateCommentPayload>({
+      query: ({ commentableId, commentableType, body, parentId }) => ({
+        url: '/comments',
+        method: 'POST',
+        body: {
+          commentable_id: commentableId,
+          commentable_type: commentableType,
+          comment: { body },
+          parent_id: parentId
+        }
+      }),
+      invalidatesTags: [{ type: 'Puzzle' as const }]
+    }),
+
+    // ✅ NEW: Polymorphic Comment Liking Endpoint Mutation Node
+    likeComment: builder.mutation<{ liked: boolean; like_count: number }, number>({
+      query: (commentId) => ({
+        url: `/comments/${commentId}/like`,
+        method: 'POST'
+      }),
+      invalidatesTags: [{ type: 'Puzzle' as const }]
+    }),
+
+    // ✅ NEW: Polymorphic Content Flag Logging Endpoint Mutation Node
+    createFlag: builder.mutation<{ message: string; id: number }, CreateFlagPayload>({
+      query: (flagData) => ({
+        url: '/flags',
+        method: 'POST',
+        body: {
+          commentable_id: flagData.commentableId,
+          commentable_type: flagData.commentableType,
+          report_type: flagData.reportType,
+          body: flagData.body
+        }
+      })
+    })
 
   }),
 });
 
-// Added useSubmitAnswerMutation export to the hooks bundle
 export const { 
   useGetRandomQuestionQuery,
-  useSubmitAnswerMutation 
+  useSubmitAnswerMutation,
+  useCreateCommentMutation,
+  useLikeCommentMutation,
+  useCreateFlagMutation
 } = questionApiSlice;

@@ -1,0 +1,25 @@
+.dashboard_layout_master_wrapper {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - 80px); /* Fills screen perfectly under your navbar */
+  background: #f8fafc; /* Clean background context color */
+}
+
+.dashboard_layout_content_viewport {
+  flex: 1;
+  padding: 30px;
+  box-sizing: border-box;
+  overflow-y: auto; /* Allows content panel to scroll independently */
+  height: calc(100vh - 80px);
+}
+
+/* 📱 Responsive Tablet/Mobile Wrap */
+@media (max-width: 768px) {
+  .dashboard_layout_master_wrapper {
+    flex-direction: column; /* Stack under each other smoothly if screen gets cramped */
+  }
+  .dashboard_layout_content_viewport {
+    height: auto;
+    padding: 20px;
+  }
+}

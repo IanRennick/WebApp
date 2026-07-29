@@ -1,0 +1,57 @@
+/* src/components/quiz/quiz.css */
+
+/* =========================================================================
+   🖥️ DESKTOP MASTER GRID VIEWPORT DEFAULT (Screens > 900px Wide)
+   ========================================================================= */
+.quiz_layout_grid {
+  display: flex;
+  flex-direction: row; 
+  gap: 24px;
+  max-width: 1000px; 
+  margin: 0 auto;
+  /* ✅ FIXED: Added a generous 80px bottom breathing room padding.
+     This guarantees your website footer never crowds or collides with the quiz layout elements! */
+  padding: 20px 20px 80px 20px;
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.quiz_main_column {
+  flex: 2.2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* ✅ FIXED: Replaced 'height: 500px' with 'min-height: 500px'!
+     This keeps your puzzle card locked at a gorgeous 500px starting height normally,
+     but allows the column box wrapper to scale down smoothly and grow as comments mount! */
+  min-height: 500px;
+}
+
+.quiz_sidebar_column {
+  flex: 1;
+  width: 100%;
+  /* ✅ FIXED: Changed to min-height to maintain pristine desktop row alignments */
+  min-height: 500px;
+}
+
+
+/* =========================================================================
+   📱 MOBILE & TABLET STACK REVERSAL OVERRIDE (Screens < 900px Wide)
+   ========================================================================= */
+@media (max-width: 900px) {
+  .quiz_layout_grid {
+    flex-direction: column-reverse; 
+    gap: 20px;
+    max-width: 750px; 
+    /* Maintain clean spacing parameters on wrapped screens */
+    padding: 20px 20px 40px 20px;
+  }
+
+  .quiz_main_column,
+  .quiz_sidebar_column {
+    width: 100%;
+    flex: none;
+    min-height: auto; /* Drops the height constraints completely on small viewports */
+  }
+}

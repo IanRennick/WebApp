@@ -1,12 +1,13 @@
 // src/components/quiz/puzzle/Puzzle.tsx
 // =========================================================================
-// INTERACTIVE CORE INTERFACE DISPLAY GRID (PUZZLE MODULE V1)
+// ENTER-KEY UPGRADED TEXT-TRANSFORMING PUZZLE PLAYER VIEWPORTS CARD
 // =========================================================================
 import React, { useState, useEffect } from 'react';
+import { FaRegCommentDots, FaRegFlag } from 'react-icons/fa'; 
 import './puzzle.css';
-import { useQuizEngine } from '../../../hooks/quiz/useQuizEngine';
+import { QuizEngineHookReturn } from '../../../hooks/quiz/useQuizEngine';
+import { useCreateFlagMutation } from '../../../features/questions/questionApiSlice';
 
-// Mapping dictionary to safely translate your backend enum integers into UI labels
 const KIND_LABELS: Record<number, string> = {
   0: 'Multiple Choice',
   1: 'Open Cloze',
@@ -14,84 +15,167 @@ const KIND_LABELS: Record<number, string> = {
   3: 'Sentence Cloze'
 };
 
-const Puzzle: React.FC = () => {
-  // Pull our newly exposed interactive handles out of your upgraded custom hook engine
+interface PuzzleProps {
+  engine: QuizEngineHookReturn;
+}
+
+const Puzzle: React.FC<PuzzleProps> = ({ engine }) => {
   const { 
-    puzzle, 
-    isLoading, 
-    isError, 
-    userAnswer, 
-    setUserAnswer, 
-    isAnswered, 
-    isSubmitting,
-    resultData, 
-    handleAnswerSubmit, 
-    fetchNextQuestion 
-  } = useQuizEngine();
+    puzzle, userAnswer, setUserAnswer, isAnswered, isSubmitting, resultData, handleAnswerSubmit, fetchNextQuestion 
+  } = engine;
 
-  // Local state helper tracking which specific multiple choice bubble was highlighted
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  
+  // ✅ ITEM C: Local states to toggle the question flagging menu box open/shut
+  const [isFlaggingQuestion, setIsFlaggingQuestion] = useState<boolean>(false);
+  const [flagReason, setFlagReason] = useState<string>('');
+  const [triggerFlag, { isLoading: isFlaggingApi }] = useCreateFlagMutation();
 
-  // Clean up selection states whenever a completely new puzzle mounts onto the viewport
   useEffect(() => {
     setSelectedOption(null);
+    setIsFlaggingQuestion(false);
+    setFlagReason('');
   }, [puzzle?.id]);
 
-  if (isLoading) return <div className="puzzle_container"><h2>Loading next puzzle challenge...</h2></div>;
-  if (isError || !puzzle) return <div className="puzzle_container"><h2>Failed to load question profile data.</h2></div>;
+  if (!puzzle) return null;
 
-  // -----------------------------------------------------------------------
-  // ACTION HANDLER SWITCH GATING
-  // -----------------------------------------------------------------------
-  const handlePrimaryActionClick = (): void => {
+  const handleFormSubmissionAction = (e: React.FormEvent): void => {
+    e.preventDefault(); 
     if (!isAnswered) {
-      handleAnswerSubmit();
+      if (userAnswer.trim()) handleAnswerSubmit();
     } else {
       window.scrollTo(0, 0);
       fetchNextQuestion();
     }
   };
 
-  // Capture option clicks for Multiple Choice (Kind 0)
   const handleOptionClick = (optionText: string): void => {
-    if (isAnswered) return; // Prevent changing your mind post-submission!
+    if (isAnswered) return;
     setSelectedOption(optionText);
-    setUserAnswer(optionText); // Sync selection directly to the hook's answer transmitter
+    setUserAnswer(optionText);
+  };
+
+  // ✅ ITEM C: Submit Question Content Flag
+  const handleQuestionFlagSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!flagReason.trim()) return;
+
+    try {
+      await triggerFlag({
+        commentableId: puzzle.id,
+        commentableType: 'Question',
+        reportType: 'structural_bug', // Default whitelisted report type enum integer
+        body: flagReason.trim()
+      }).unwrap();
+      setFlagReason('');
+      setIsFlaggingQuestion(false);
+      alert("Puzzle has been successfully flagged for administrator review.");
+    } catch (err) {
+      console.error("Failed to submit question flag report:", err);
+    }
+  };
+
+  const renderDynamicSentence = () => {
+    if (!puzzle.main.includes('*')) {
+      return <h2 className="puzzle_main">{puzzle.main}</h2>;
+    }
+
+    const [leftPart, rightPart] = puzzle.main.split('*');
+    const baselineUnderscores = puzzle.kind === 3 ? '_________________________' : '____________';
+
+    let embeddedText = userAnswer.trim() || baselineUnderscores;
+    let textStateClass = 'sentence_blank_span';
+
+    if (isAnswered && resultData) {
+      textStateClass += resultData.fully_correct ? ' text_green_bold' : ' text_red_bold';
+    } else if (userAnswer.trim()) {
+      textStateClass += ' text_blue_typing';
+    }
+
+    return (
+      <h2 className="puzzle_main">
+        {leftPart}
+        <span className={textStateClass}>{embeddedText}</span>
+        {rightPart}
+      </h2>
+    );
   };
 
   return (
-    <div className="puzzle_container">
+    <form className="puzzle_container" onSubmit={handleFormSubmissionAction}>
       
-      {/* Quiz Header Title - Maps integer enum numbers cleanly to display text labels */}
-      <h1 className="puzzle_type">
-        {KIND_LABELS[puzzle.kind] || 'Puzzle'} ({puzzle.level})
-      </h1>
+      <div className="puzzle_card_header">
+        <h1 className="puzzle_type">
+          {KIND_LABELS[puzzle.kind] || 'Puzzle'} ({puzzle.level})
+        </h1>
+        
+        <div className="puzzle_action_utility_strip">
+          {isAnswered && puzzle.comments && (
+            <button 
+              type="button" 
+              className="utility_strip_btn comment_active_btn" 
+              aria-label="Open comment threads feed"
+            >
+              <FaRegCommentDots />
+              {puzzle.comments.length > 0 && (
+                <span className="comment_count_badge">{puzzle.comments.length}</span>
+              )}
+            </button>
+          )}
+
+          {/* ✅ ITEM C: Clickable Flag button toggles flag layout box open/shut */}
+          <button 
+            type="button" 
+            className={`utility_strip_btn danger_hover ${isFlaggingQuestion ? 'flag_active_red' : ''}`}
+            onClick={() => setIsFlaggingQuestion(prev => !prev)}
+            aria-label="Flag question context glitch"
+          >
+            <FaRegFlag />
+          </button>
+        </div>
+      </div>
       <hr className="puzzle_type_hr"/>
 
-      {/* Alphanumeric Keyword Root Token */}
-      {puzzle.keyword && <h2 className="keyword">Keyword: {puzzle.keyword}</h2>}
+      {/* ✅ ITEM C: Question Flag Input Disclosure Card */}
+      {isFlaggingQuestion && (
+        <div className="text_input_wrapper comment_container" style={{ padding: '12px', background: '#f8fafc', marginBottom: '16px' }}>
+          <p style={{ fontSize: '0.85rem', color: '#64748b', margin: '0 0 6px 0', fontWeight: 'bold' }}>Report Question Typo or Bug:</p>
+          <div className="form_row" style={{ display: 'flex', gap: '8px' }}>
+            <input
+              type="text"
+              value={flagReason}
+              onChange={(e) => setFlagReason(e.target.value)}
+              className="puzzle_input"
+              style={{ padding: '8px 12px', fontSize: '0.9rem' }}
+              placeholder="Describe the issue with this puzzle..."
+              autoFocus
+            />
+            <button 
+              type="button" 
+              className="comment_button" 
+              onClick={handleQuestionFlagSubmit}
+              disabled={isFlaggingApi || !flagReason.trim()}
+            >
+              Flag
+            </button>
+          </div>
+        </div>
+      )}
 
-      {/* Context Prompt Text Segment */}
+      {puzzle.keyword && <h2 className="keyword">Keyword: <span className="keyword_token">{puzzle.keyword}</span></h2>}
       {puzzle.prompt && <h2 className="prompt">{puzzle.prompt}</h2>}
+      
+      {renderDynamicSentence()}
 
-      {/* Primary Exercise Core Clause Sentence String */}
-      <h2 className="puzzle_main">{puzzle.main}</h2>
-
-      {/* ===================================================================
-          LAYOUT TRACK A: INTERACTIVE OPTIONS SELECTION MATRIX (KIND 0)
-          =================================================================== */}
+      {/* Multiple Choice Option Blocks */}
       {puzzle.kind === 0 && puzzle.options && puzzle.options.length > 0 && (
-        <ul>
+        <ul className="options_list_wrapper">
           {puzzle.options.map((option: string, index: number) => {
-            // Determine active highlight classes dynamically on the fly
             let optionClassName = 'puzzle_option';
-            
             if (isAnswered) {
               if (option === selectedOption) {
-                // Color it green or red based on the Rails answer grading math
                 optionClassName += resultData?.fully_correct ? ' correct' : ' incorrect';
               } else if (resultData?.correct_answers?.includes(option)) {
-                // Automatically reveal the correct choice in green if the student missed it
                 optionClassName += ' correct';
               }
             } else if (option === selectedOption) {
@@ -99,11 +183,7 @@ const Puzzle: React.FC = () => {
             }
 
             return (
-              <li 
-                key={index} 
-                className={optionClassName}
-                onClick={() => handleOptionClick(option)}
-              >
+              <li key={index} className={optionClassName} onClick={() => handleOptionClick(option)}>
                 {option}
               </li>
             );
@@ -111,39 +191,34 @@ const Puzzle: React.FC = () => {
         </ul>
       )}
 
-      {/* ===================================================================
-          LAYOUT TRACK B: CLOZE & FORMATION OPEN TEXT SLOTS (KINDS 1, 2, 3)
-          =================================================================== */}
+      {/* Open Entry Input Text Fields */}
       {puzzle.kind !== 0 && (
         <div className="text_input_wrapper">
           <input 
             className={`puzzle_input ${isAnswered ? (resultData?.fully_correct ? 'correct' : 'incorrect') : ''}`}
             type="text" 
-            placeholder="Enter Answer"
+            placeholder={puzzle.kind === 3 ? "Enter multiple words missing..." : "Enter missing word..."}
             value={userAnswer}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserAnswer(e.target.value)}
-            disabled={isAnswered} // Freeze the field so input parameters stay locked down
+            disabled={isAnswered}
           />
 
-          {/* POST-SUBMISSION CORRECT KEY COMPLIANCE BANNER */}
           {isAnswered && !resultData?.fully_correct && resultData?.correct_answers && resultData.correct_answers.length > 0 && (
             <div className="puzzle_option correct" style={{ marginTop: '15px' }}>
-              Correct Answer: {resultData.correct_answers[0]}
+              Correct Solution alternative: {resultData.correct_answers.join(' / ')}
             </div>
           )}
         </div>
       )}
 
-      {/* Dynamic Action Button Control Gate */}      
       <button 
+        type="submit"
         className="next_button" 
-        onClick={handlePrimaryActionClick}
-        disabled={isSubmitting || (!isAnswered && !userAnswer.trim())} // Block blank form submissions
+        disabled={isSubmitting || (!isAnswered && !userAnswer.trim())}
       >
         {isSubmitting ? 'Evaluating...' : (isAnswered ? 'Next Question' : 'Submit')}
       </button>
-      
-    </div>
+    </form>
   );
 };
 

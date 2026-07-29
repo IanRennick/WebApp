@@ -2,28 +2,29 @@
 // =========================================================================
 // RESPONSIVE INTERACTIVE PLATFORM HEADER MODULE (NAVIGATION BAR V1)
 // =========================================================================
-// - Mounts high-fidelity reactive anchor nodes to shift application viewports.
-// - Handles collapsible canvas state sliders for mobile viewport breakpoints.
-// - Intelligently reads global login tokens to swap log-in paths for profile targets.
-// =========================================================================
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaSpaceAwesome } from "react-icons/fa6";
 import { FaBars, FaTimes } from 'react-icons/fa';
-import { selectCurrentToken } from '../../../features/auth/authSlice';
+import Avatar from '@mui/material/Avatar'; 
+import Badge from '@mui/material/Badge';   
+import { selectCurrentToken, selectCurrentUser } from '../../../features/auth/authSlice';
 import { useAppSelector } from '../../../hooks/hooks';
 import './navbar.css';
 
 const Navbar: React.FC = () => {
-  // Mobile canvas sliding shelf visibility indicator toggle
   const [toggle, setToggle] = useState<boolean>(false);
 
-  // Layout presentation modifier triggers
   const handleToggle = (): void => setToggle(!toggle);
   const handleClose = (): void => setToggle(false);
 
-  // Read the active token out of global memory to dynamically adjust access buttons
+  // Synchronously pull down your token and active global cached user profile variables
   const token = useAppSelector(selectCurrentToken);
+  const user = useAppSelector(selectCurrentUser);
+
+  // Safely read values cross-mapping your camelCase properties
+  const userInitial = user?.username ? user.username.charAt(0).toUpperCase() : '?';
+  const unreadAlerts = user?.unreadNotificationsCount || 0;
 
   return (
     <div className="navbar">
@@ -35,62 +36,66 @@ const Navbar: React.FC = () => {
           Rennlad Academy
         </Link>                 
 
-        {/* RESPONSIVE MOBILE ACCESSIBILITY BREAKPOINT TRIGGER
-            Swaps between an open menu bars graphic and a close icon indicator */}
+        {/* RESPONSIVE MOBILE ACCESSIBILITY BREAKPOINT TRIGGER */}
         <div className="navbar_toggle" onClick={handleToggle}>
-          {toggle ? (
-            <FaTimes className="toggle_icon1" />
-          ) : (
-            <FaBars className="toggle_icon2" />
-          )}
+          {toggle ? <FaTimes className="toggle_icon1" /> : <FaBars className="toggle_icon2" />}
         </div>
 
         {/* EXPANDABLE CORE LINKS CONSOLE SHELF */}
         <ul className={toggle ? "navbar_menu active" : "navbar_menu"}>
           
-          {/* USER DISCOVERY FIELD CHANNEL (FUTURE EXPANSION FEATURE) */}
           <li className="menu_search_container">
             <form onSubmit={(e) => e.preventDefault()}>
-              <input
-                className="search_input" 
-                type="text" 
-                placeholder="Search"
-              />
+              <input className="search_input" type="text" placeholder="Search" />
               <button type="submit" style={{ display: "none" }}></button>
             </form>
           </li>
 
-          {/* APPLICATION VIEW NAVIGATION NODES */}
           <li className="menu_link_container" onClick={handleClose}>
-            <Link to="/quiz" className="menu_link">
-              Puzzles
-            </Link>
+            <Link to="/quiz" className="menu_link">Puzzles</Link>
           </li>
 
           <li className="menu_link_container" onClick={handleClose}>
-            <Link to="/" className="menu_link">
-              Writings
-            </Link>
+            <Link to="/" className="menu_link">Writings</Link>
           </li>
 
           <li className="menu_link_container" onClick={handleClose}>
-            <Link to="/" className="menu_link">
-              Speakings
-            </Link>
+            <Link to="/" className="menu_link">Speakings</Link>
           </li>
 
-          {/* INTERACTIVE ACCESS GATEWAY BUTTON
-              Intelligently updates layout targets based on user authentication flags.
-              Swaps entry paths for profile dashboards once token handshakes complete. */}
+          {/* INTERACTIVE ACCESS GATEWAY BUTTON */}
           <li className="menu_button_container" onClick={handleClose}>
             {!token ? (
-              <Link to="/logIn" className="menu_button">
-                Log In
-              </Link>  
+              <Link to="/logIn" className="menu_button">Log In</Link>  
             ) : (
-              <Link to="/profile" className="menu_button">
-                Account
-              </Link> 
+              <Link to="/profile" className="navbar_avatar_link_wrapper" title="Go to account dashboard">
+                <Badge 
+                  badgeContent={unreadAlerts} 
+                  color="error"
+                  max={9}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                  <Avatar 
+                    sx={{ 
+                      bgcolor: '#2563eb', 
+                      color: '#ffffff',
+                      fontWeight: 'bold',
+                      fontSize: '1rem',
+                      width: 40,
+                      height: 40,
+                      cursor: 'pointer',
+                      border: '2px solid transparent',
+                      transition: 'all 150ms ease',
+                      '&:hover': {
+                        borderColor: '#2563eb',
+                        transform: 'scale(1.04)'
+                      }
+                    }}
+                  >
+                    {userInitial}
+                  </Avatar>
+                </Badge>
+              </Link>
             )}
           </li>
 

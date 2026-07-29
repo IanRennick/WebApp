@@ -16,6 +16,7 @@ import LogInPage from './pages/auth/LogInPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import RequireAuth from './components/layout/RequireAuth';
 import PersistLogIn from './components/layout/PersistLogIn';
+import DashboardLayout from './components/layout/DashboardLayout/DashboardLayout';
 
 const App: React.FC = () => {
   return (
@@ -53,7 +54,11 @@ const App: React.FC = () => {
             
             {/* Private Student Dashboard Workspaces */}
             <Route path="/quiz" element={<QuizPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+
+            {/* 🔒 PROTECTED DASHBOARD PAGES: Automatically wrap inside your Sidebar Layout! */}
+            <Route element={<DashboardLayout />}>
+              <Route path="/profile" element={<ProfilePage />} />
+            </Route>
             
           </Route>
         </Route>

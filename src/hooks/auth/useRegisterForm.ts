@@ -10,7 +10,7 @@
 import { useState, useEffect, useRef } from 'react';
 import type { SyntheticEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRegisterMutation } from '../../features/auth/authApiSlice';
+import { useRegisterMutation, AuthResponse } from '../../features/auth/authApiSlice';
 import { useAppDispatch } from '../hooks';
 import { setCredentials } from '../../features/auth/authSlice';
 import useToggle from '../localStorage/useToggle';
@@ -107,10 +107,17 @@ export const useRegisterForm = () => {
       };
 
       // Dispatch creation query out to your database endpoint
-      const response = await register(payload).unwrap() as { access_token: string };
+      const response = await register(payload).unwrap() as AuthResponse;
 
-      // Save the freshly generated session access token straight down into frontend memory
-      dispatch(setCredentials({ token: response.access_token }));
+      dispatch(setCredentials({
+        token: response.access_token,
+        user: response.user ? {
+          username: response.user.username,
+          rating: response.user.rating,
+          cefrLevel: response.user.cefr_level,
+          unreadNotificationsCount: response.user.unread_notifications_count
+        } : null
+      }));
 
       // Purge state data variables cleanly to eliminate raw text footprints from form cache
       setEmail('');

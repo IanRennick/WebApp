@@ -2,14 +2,10 @@
 // =========================================================================
 // AUTHENTICATION NETWORK GATEWAY ENDPOINTS (AUTH API SLICE)
 // =========================================================================
-// - Injects specialized authentication mutations into the main central API pipeline.
-// - Packages login credentials and environment tracking tokens into standard request formats.
-// - Auto-generates the customized reactive custom data fetching hooks used by forms.
-// =========================================================================
 import { apiSlice } from '../../app/api/apiSlice';
 
 interface LoginCredentials {
-  login: string;       // Acceptable as either username or email strings interchangeably
+  login: string;       
   password: string;
 }
 
@@ -19,8 +15,15 @@ interface RegisterCredentials {
   password: string;
 }
 
-interface LoginResponse {
+// ✅ FIXED: Unified under a single, robust, metadata-extended response contract
+export interface AuthResponse {
   access_token: string;
+  user: {
+    username: string;
+    rating: number;
+    cefr_level: string; 
+    unread_notifications_count: number;
+  } | null;
 }
 
 export const authApiSlice = apiSlice.injectEndpoints({
@@ -29,19 +32,16 @@ export const authApiSlice = apiSlice.injectEndpoints({
     // ---------------------------------------------------------------------
     // 1. ACCOUNT ACCESS CREATOR MUTATION (LOG IN ROUTE)
     // ---------------------------------------------------------------------
-    // Submits credentials to the server to establish an authenticated session.
-    // Automatically enforces credential passing so cookie chains write correctly.
-    // ---------------------------------------------------------------------
-    logIn: builder.mutation<LoginResponse, LoginCredentials>({
+    logIn: builder.mutation<AuthResponse, LoginCredentials>({
       query: (credentials) => ({
         url: '/oauth/token',
         method: 'POST',
-        credentials: 'include', // Instructs the browser to handle cross-origin cookie setups securely
+        credentials: 'include', 
         body: { 
           ...credentials,
           client_id: import.meta.env.VITE_CLIENT_ID,
           client_secret: import.meta.env.VITE_CLIENT_SECRET,
-          grant_type: 'password' // Informs Doorkeeper we are using standard credential lookups
+          grant_type: 'password' 
         }
       })
     }),
@@ -49,14 +49,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
     // ---------------------------------------------------------------------
     // 2. NEW STUDENT ACCOUNT REGISTER MUTATION (SIGN UP ROUTE)
     // ---------------------------------------------------------------------
-    // Transmits flat registration inputs directly to your custom backend controller.
-    // Passes tracking parameters along to enable automatic logins upon success.
-    // ---------------------------------------------------------------------
-    register: builder.mutation<unknown, RegisterCredentials>({
+    // ✅ FIXED: Shifted return type from unknown to AuthResponse to pass user data on signup!
+    register: builder.mutation<AuthResponse, RegisterCredentials>({
       query: (credentials) => ({
         url: '/users',
         method: 'POST',
-        credentials: 'include', // Instructs the browser to capture the resulting session cookie drop
+        credentials: 'include', 
         body: { 
           ...credentials,
           client_id: import.meta.env.VITE_CLIENT_ID,
@@ -67,25 +65,21 @@ export const authApiSlice = apiSlice.injectEndpoints({
     // ---------------------------------------------------------------------
     // 3. SILENT BACKGROUND TOKEN EXCHANGE MUTATION (REFRESH ROUTE)
     // ---------------------------------------------------------------------
-    // Dispatches background parameters to swap out short-term access tokens.
-    // Bypasses local input states since values are extracted from hidden cookies.
-    // ---------------------------------------------------------------------
-    refreshToken: builder.mutation<LoginResponse, void>({
+    // ✅ FIXED: Shifted return type to AuthResponse to pass user data on refresh!
+    refreshToken: builder.mutation<AuthResponse, void>({
       query: () => ({
         url: '/oauth/token',
         method: 'POST',
         body: { 
           client_id: import.meta.env.VITE_CLIENT_ID,
           client_secret: import.meta.env.VITE_CLIENT_SECRET,
-          grant_type: 'refresh_token' // Activates Doorkeeper cookie extraction tracks
+          grant_type: 'refresh_token' 
         }
       })
     }),
 
     // ---------------------------------------------------------------------
     // 4. ACCOUNT SESSION TERMINATION MUTATION (LOG OUT ROUTE)
-    // ---------------------------------------------------------------------
-    // Notifies the database to explicitly revoke and delete active token keys.
     // ---------------------------------------------------------------------
     logOut: builder.mutation<unknown, void>({
       query: () => ({
@@ -100,8 +94,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
   })
 });
 
-// Auto-generated data hooks cleanly extracted out of your endpoint definitions.
-// Call these across your screens to run background network lookups effortlessly!
 export const { 
   useLogInMutation, 
   useRegisterMutation, 
