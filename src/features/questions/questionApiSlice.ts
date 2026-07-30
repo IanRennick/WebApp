@@ -102,7 +102,7 @@ export const questionApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: [{ type: 'Puzzle' as const }]
     }),
 
-    // ✅ NEW: Polymorphic Comment Liking Endpoint Mutation Node
+    // Polymorphic Comment Liking Endpoint Mutation Node
     likeComment: builder.mutation<{ liked: boolean; like_count: number }, number>({
       query: (commentId) => ({
         url: `/comments/${commentId}/like`,
@@ -111,7 +111,7 @@ export const questionApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: [{ type: 'Puzzle' as const }]
     }),
 
-    // ✅ NEW: Polymorphic Content Flag Logging Endpoint Mutation Node
+    // Polymorphic Content Flag Logging Endpoint Mutation Node
     createFlag: builder.mutation<{ message: string; id: number }, CreateFlagPayload>({
       query: (flagData) => ({
         url: '/flags',
@@ -123,7 +123,16 @@ export const questionApiSlice = apiSlice.injectEndpoints({
           body: flagData.body
         }
       })
-    })
+    }),
+
+    // Extracts the batch array deck of historical missed question nodes
+    getReviewQueue: builder.query<QuestionData[], void>({
+      query: () => ({
+        url: '/questions/review_queue', // Maps directly to your upcoming Rails route array
+        method: 'GET'
+      }),
+      providesTags: [{ type: 'Puzzle' as const }]
+    }),
 
   }),
 });
@@ -133,5 +142,6 @@ export const {
   useSubmitAnswerMutation,
   useCreateCommentMutation,
   useLikeCommentMutation,
-  useCreateFlagMutation
+  useCreateFlagMutation,
+  useGetReviewQueueQuery
 } = questionApiSlice;

@@ -1,44 +1,60 @@
-import React from 'react';
+// src/components/quiz/Quiz.tsx
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Puzzle from './puzzle/Puzzle';
 import Dashboard from './dashboard/Dashboard';
+import ReviewQuiz from './ReviewMode'; 
 import { CommentSection } from '../comments/CommentSection';
 import { useQuizEngine } from '../../hooks/quiz/useQuizEngine';
 import './quiz.css';
 
 const Quiz: React.FC = () => {
-  const engine = useQuizEngine();
+  const [searchParams] = useSearchParams();
+  const isReviewMode = searchParams.get('mode') === 'review';
 
-  if (engine.isLoading) return <div className="puzzle_container"><h2>Loading exercise universe...</h2></div>;
-  if (engine.isError || !engine.puzzle) return <div className="puzzle_container"><h2>Failed to connect to backend routers.</h2></div>;
+  const [commentsVisible, setCommentsVisible] = useState<boolean>(false);
+  const randomEngine = useQuizEngine();
+
+  // ✅ STEP E: Auto-close the discussion boards drawer the millisecond a brand-new card load handles execute
+  useEffect(() => {
+    setCommentsVisible(false);
+  }, [randomEngine.puzzle?.id]);
+
+  if (isReviewMode) {
+    return <ReviewQuiz />;
+  }
+
+  if (randomEngine.isLoading) return <div className="puzzle_container"><h2>Loading exercise universe...</h2></div>;
+  if (randomEngine.isError || !randomEngine.puzzle) return <div className="puzzle_container"><h2>Failed to connect to backend routers.</h2></div>;
 
   return (
     <div className="quiz_layout_grid">
       
-      {/* 🧩 COLUMN 1: LEFT WORKSPACE PANEL (Holds core puzzle and comment discussions) */}
       <div className="quiz_main_column">
-        
-        {/* Core Exercise Viewport Card */}
-        <Puzzle engine={engine} />
-
-        {/* Discussion Board (Revealed Post-Submission) */}
-        {engine.isAnswered && engine.puzzle.comments && (
-          <CommentSection 
-            commentableId={engine.puzzle.id} 
-            commentableType="Question" 
-            rootComments={engine.puzzle.comments} 
-          />
-        )}
-        
-      </div>
-
-      {/* 📊 COLUMN 2: RIGHT REAL-TIME ANALYTICS DASHBOARD PANEL */}
-      <div className="quiz_sidebar_column">
-        <Dashboard 
-          puzzle={engine.puzzle}
-          isAnswered={engine.isAnswered}
-          resultData={engine.resultData}
+        <Puzzle 
+          engine={randomEngine} 
+          commentsVisible={commentsVisible}
+          setCommentsVisible={setCommentsVisible}
         />
       </div>
+
+      <div className="quiz_sidebar_column">
+        <Dashboard 
+          puzzle={randomEngine.puzzle}
+          isAnswered={randomEngine.isAnswered}
+          resultData={randomEngine.resultData}
+        />
+      </div>
+
+      {commentsVisible && randomEngine.isAnswered && randomEngine.puzzle.comments && (
+        <div className="quiz_comments_full_width_row">
+          <CommentSection 
+            commentableId={randomEngine.puzzle.id} 
+            commentableType="Question" 
+            rootComments={randomEngine.puzzle.comments} 
+          />
+        </div>
+      )}
 
     </div>
   );

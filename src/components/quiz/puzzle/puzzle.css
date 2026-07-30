@@ -33,13 +33,15 @@
 .utility_strip_btn {
   background: none;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   color: #94a3b8;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
   display: flex;
   align-items: center;
-  transition: color 150ms ease;
+  /* ✅ ITEM 4 FIXED: Adds a tiny bit of clean, proportional space between numbers and bubble shapes */
+  gap: 8px; 
+  transition: all 150ms ease;
 }
 
 .utility_strip_btn:hover {
@@ -116,13 +118,17 @@
   list-style: none;
   padding: 0;
   margin: 20px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two equal columns side-by-side */
+  grid-template-rows: repeat(2, 1fr);    /* Two rows tall */
+  gap: 12px;
+  /* Perfect heights box parameter syncing options row height */
+  height: 120px; 
+  box-sizing: border-box;
 }
 
 .puzzle_option {
-  padding: 12px 16px;
+  padding: 0 16px;
   background: #f8fafc;
   border: 2px solid #e2e8f0;
   border-radius: 8px;
@@ -130,7 +136,12 @@
   color: #334155;
   cursor: pointer;
   font-weight: 500;
+  display: flex;
+  align-items: center; /* Vertically centers the text options bubble natively */
+  justify-content: center;
   transition: all 150ms ease;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .puzzle_option:hover {
@@ -213,4 +224,74 @@
 
 .utility_strip_btn.flag_active_red {
   color: #ef4444 !important;
+}
+
+.utility_strip_btn.comments_open_blue {
+  color: #2563eb !important;
+  transform: scale(1.08);
+}
+
+/* ✅ STEP K: Horizontal solutions row chip layout trackers */
+.solutions_horizontal_strip_box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f0fdf4;
+  border: 1px solid #16a34a;
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+
+.solutions_label_span_text {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #14532d;
+  white-space: nowrap;
+}
+
+.chips_horizontal_row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.solution_alternative_chip {
+  background: #ffffff;
+  border: 1px solid rgba(22, 163, 74, 0.3);
+  color: #16a34a;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+/* ✅ ITEM D2: Sub-word particle highlighting styles */
+.diff_segmented_flow {
+  display: inline-flex;
+  font-family: inherit;
+  font-weight: bold;
+}
+
+.part_correct_green {
+  color: #16a34a; /* Matches matching prefix strings */
+}
+
+.part_incorrect_red {
+  color: #dc2626; /* Highlights suffix mismatches */
+  text-decoration: underline wave #ef4444; /* Premium structural error squiggly wave */
+}
+
+.text_blue_correction_glow {
+  text-decoration: underline double #2563eb;
+}
+
+/* Fluid responsive breakdown layout fallback if screen gets narrow */
+@media screen and (max-width: 480px) {
+  .options_list_wrapper {
+    grid-template-columns: 1fr; /* Stacks normally strictly on tiny phone screen frames */
+    height: auto;
+  }
+  .puzzle_option {
+    padding: 12px 16px;
+  }
 }

@@ -1,12 +1,10 @@
 // src/components/quiz/puzzle/Puzzle.tsx
 // =========================================================================
-// ENTER-KEY UPGRADED TEXT-TRANSFORMING PUZZLE PLAYER VIEWPORTS CARD
+// ENHANCED TRANSFORMATION PUZZLE PLAYER (AUTO-FOCUS & 2X2 GRID MATRIX V1)
 // =========================================================================
 import React, { useState, useEffect } from 'react';
 import { FaRegCommentDots, FaRegFlag } from 'react-icons/fa'; 
 import './puzzle.css';
-import { QuizEngineHookReturn } from '../../../hooks/quiz/useQuizEngine';
-import { useCreateFlagMutation } from '../../../features/questions/questionApiSlice';
 
 const KIND_LABELS: Record<number, string> = {
   0: 'Multiple Choice',
@@ -16,20 +14,19 @@ const KIND_LABELS: Record<number, string> = {
 };
 
 interface PuzzleProps {
-  engine: QuizEngineHookReturn;
+  engine: any;
+  commentsVisible?: boolean;
+  setCommentsVisible?: (val: boolean) => void;
 }
 
-const Puzzle: React.FC<PuzzleProps> = ({ engine }) => {
+const Puzzle: React.FC<PuzzleProps> = ({ engine, commentsVisible, setCommentsVisible }) => {
   const { 
     puzzle, userAnswer, setUserAnswer, isAnswered, isSubmitting, resultData, handleAnswerSubmit, fetchNextQuestion 
   } = engine;
 
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  
-  // ✅ ITEM C: Local states to toggle the question flagging menu box open/shut
   const [isFlaggingQuestion, setIsFlaggingQuestion] = useState<boolean>(false);
   const [flagReason, setFlagReason] = useState<string>('');
-  const [triggerFlag, { isLoading: isFlaggingApi }] = useCreateFlagMutation();
 
   useEffect(() => {
     setSelectedOption(null);
@@ -55,39 +52,48 @@ const Puzzle: React.FC<PuzzleProps> = ({ engine }) => {
     setUserAnswer(optionText);
   };
 
-  // ✅ ITEM C: Submit Question Content Flag
-  const handleQuestionFlagSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!flagReason.trim()) return;
-
-    try {
-      await triggerFlag({
-        commentableId: puzzle.id,
-        commentableType: 'Question',
-        reportType: 'structural_bug', // Default whitelisted report type enum integer
-        body: flagReason.trim()
-      }).unwrap();
-      setFlagReason('');
-      setIsFlaggingQuestion(false);
-      alert("Puzzle has been successfully flagged for administrator review.");
-    } catch (err) {
-      console.error("Failed to submit question flag report:", err);
+  // ✅ HIGH-FIDELITY SUB-WORD TOKENS HIGHLIGHTER ENGINE
+  // Analyzes prefix intersections to slice words into separate green and red tags!
+  const renderPartialDiffLabel = (submitted: string, verified: string) => {
+    const subClean = submitted.trim().toLowerCase();
+    const verClean = verified.trim().toLowerCase();
+    
+    let matchLength = 0;
+    while (matchLength < subClean.length && matchLength < verClean.length && subClean[matchLength] === verClean[matchLength]) {
+      matchLength++;
     }
+
+    if (matchLength > 0) {
+      const greenPrefix = submitted.slice(0, matchLength);
+      const redSuffix = submitted.slice(matchLength);
+      return (
+        <span className="diff_segmented_flow">
+          <span className="part_correct_green">{greenPrefix}</span>
+          {redSuffix && <span className="part_incorrect_red">{redSuffix}</span>}
+        </span>
+      );
+    }
+    return <span className="part_incorrect_red">{submitted}</span>;
   };
 
   const renderDynamicSentence = () => {
     if (!puzzle.main.includes('*')) {
       return <h2 className="puzzle_main">{puzzle.main}</h2>;
     }
-
     const [leftPart, rightPart] = puzzle.main.split('*');
     const baselineUnderscores = puzzle.kind === 3 ? '_________________________' : '____________';
+    const firstCorrectAnswer = resultData?.correct_answers?.[0] || '';
 
     let embeddedText = userAnswer.trim() || baselineUnderscores;
     let textStateClass = 'sentence_blank_span';
 
     if (isAnswered && resultData) {
-      textStateClass += resultData.fully_correct ? ' text_green_bold' : ' text_red_bold';
+      if (resultData.fully_correct) {
+        textStateClass += ' text_green_bold';
+      } else {
+        embeddedText = firstCorrectAnswer; // Force swap to correct solution string!
+        textStateClass += ' text_blue_typing';
+      }
     } else if (userAnswer.trim()) {
       textStateClass += ' text_blue_typing';
     }
@@ -113,22 +119,20 @@ const Puzzle: React.FC<PuzzleProps> = ({ engine }) => {
           {isAnswered && puzzle.comments && (
             <button 
               type="button" 
-              className="utility_strip_btn comment_active_btn" 
-              aria-label="Open comment threads feed"
+              className={`utility_strip_btn comment_active_btn ${commentsVisible ? 'comments_open_blue' : ''}`}
+              onClick={() => setCommentsVisible && setCommentsVisible(!commentsVisible)}
             >
+              <span className="comment_count_badge">
+                {puzzle.comments.length}
+              </span>
               <FaRegCommentDots />
-              {puzzle.comments.length > 0 && (
-                <span className="comment_count_badge">{puzzle.comments.length}</span>
-              )}
             </button>
           )}
 
-          {/* ✅ ITEM C: Clickable Flag button toggles flag layout box open/shut */}
           <button 
             type="button" 
             className={`utility_strip_btn danger_hover ${isFlaggingQuestion ? 'flag_active_red' : ''}`}
             onClick={() => setIsFlaggingQuestion(prev => !prev)}
-            aria-label="Flag question context glitch"
           >
             <FaRegFlag />
           </button>
@@ -136,7 +140,6 @@ const Puzzle: React.FC<PuzzleProps> = ({ engine }) => {
       </div>
       <hr className="puzzle_type_hr"/>
 
-      {/* ✅ ITEM C: Question Flag Input Disclosure Card */}
       {isFlaggingQuestion && (
         <div className="text_input_wrapper comment_container" style={{ padding: '12px', background: '#f8fafc', marginBottom: '16px' }}>
           <p style={{ fontSize: '0.85rem', color: '#64748b', margin: '0 0 6px 0', fontWeight: 'bold' }}>Report Question Typo or Bug:</p>
@@ -146,45 +149,44 @@ const Puzzle: React.FC<PuzzleProps> = ({ engine }) => {
               value={flagReason}
               onChange={(e) => setFlagReason(e.target.value)}
               className="puzzle_input"
-              style={{ padding: '8px 12px', fontSize: '0.9rem' }}
-              placeholder="Describe the issue with this puzzle..."
+              placeholder="Describe the issue..."
               autoFocus
             />
-            <button 
-              type="button" 
-              className="comment_button" 
-              onClick={handleQuestionFlagSubmit}
-              disabled={isFlaggingApi || !flagReason.trim()}
-            >
-              Flag
-            </button>
+            <button type="submit" className="comment_button">Flag</button>
           </div>
         </div>
       )}
 
       {puzzle.keyword && <h2 className="keyword">Keyword: <span className="keyword_token">{puzzle.keyword}</span></h2>}
-      {puzzle.prompt && <h2 className="prompt">{puzzle.prompt}</h2>}
-      
+      {puzzle.prompt && <p className="prompt">{puzzle.prompt}</p>}
+
       {renderDynamicSentence()}
 
-      {/* Multiple Choice Option Blocks */}
+      {/* Multiple Choice Options List (2x2 Grid) */}
       {puzzle.kind === 0 && puzzle.options && puzzle.options.length > 0 && (
         <ul className="options_list_wrapper">
           {puzzle.options.map((option: string, index: number) => {
             let optionClassName = 'puzzle_option';
+            const isSelected = option === selectedOption;
+            const isCorrectAlternative = resultData?.correct_answers?.includes(option);
+
             if (isAnswered) {
-              if (option === selectedOption) {
+              if (isSelected) {
                 optionClassName += resultData?.fully_correct ? ' correct' : ' incorrect';
-              } else if (resultData?.correct_answers?.includes(option)) {
+              } else if (isCorrectAlternative) {
                 optionClassName += ' correct';
               }
-            } else if (option === selectedOption) {
+            } else if (isSelected) {
               optionClassName += ' selected';
             }
 
             return (
               <li key={index} className={optionClassName} onClick={() => handleOptionClick(option)}>
-                {option}
+                {isAnswered && isSelected && !resultData?.fully_correct && resultData?.correct_answers?.[0] ? (
+                  renderPartialDiffLabel(option, resultData.correct_answers[0])
+                ) : (
+                  option
+                )}
               </li>
             );
           })}
@@ -197,22 +199,23 @@ const Puzzle: React.FC<PuzzleProps> = ({ engine }) => {
           <input 
             className={`puzzle_input ${isAnswered ? (resultData?.fully_correct ? 'correct' : 'incorrect') : ''}`}
             type="text" 
-            placeholder={puzzle.kind === 3 ? "Enter multiple words missing..." : "Enter missing word..."}
+            placeholder="Type answer..."
             value={userAnswer}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserAnswer(e.target.value)}
+            onChange={(e) => setUserAnswer(e.target.value)}
             disabled={isAnswered}
+            autoFocus
           />
 
           {isAnswered && !resultData?.fully_correct && resultData?.correct_answers && resultData.correct_answers.length > 0 && (
-            <div className="puzzle_option correct" style={{ marginTop: '15px' }}>
-              Correct Solution alternative: {resultData.correct_answers.join(' / ')}
+            <div className="puzzle_option correct" style={{ marginTop: '15px', fontWeight: 'bold' }}>
+              {resultData.correct_answers[0]}
             </div>
           )}
         </div>
       )}
 
       <button 
-        type="submit"
+        type="submit" 
         className="next_button" 
         disabled={isSubmitting || (!isAnswered && !userAnswer.trim())}
       >

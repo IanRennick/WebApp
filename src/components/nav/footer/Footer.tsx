@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
               <h1 className="link_title">Account</h1>
               <Link to="/profile" className="footer_link">Profile</Link>
               <Link to="/" className="footer_link">Statistics</Link>
-              <Link to="/profile" className="footer_link">Achievements</Link>
+              <Link to="/quiz?mode=review" className="footer_link">Review</Link>
               <Link to="/profile" className="footer_link">Settings</Link>
             </div>
                

@@ -5,14 +5,14 @@
    ========================================================================= */
 .quiz_layout_grid {
   display: flex;
-  flex-direction: row; 
+  flex-flow: row wrap; 
   gap: 24px;
   max-width: 1000px; 
   margin: 0 auto;
-  /* ✅ FIXED: Added a generous 80px bottom breathing room padding.
-     This guarantees your website footer never crowds or collides with the quiz layout elements! */
   padding: 20px 20px 80px 20px;
-  align-items: flex-start;
+  /* ✅ FIXED: Forces both columns to stretch and match each other's height 
+     pixel-for-pixel, regardless of question text length! */
+  align-items: stretch; 
   width: 100%;
   box-sizing: border-box;
 }
@@ -22,36 +22,39 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  /* ✅ FIXED: Replaced 'height: 500px' with 'min-height: 500px'!
-     This keeps your puzzle card locked at a gorgeous 500px starting height normally,
-     but allows the column box wrapper to scale down smoothly and grow as comments mount! */
-  min-height: 500px;
 }
 
 .quiz_sidebar_column {
   flex: 1;
   width: 100%;
-  /* ✅ FIXED: Changed to min-height to maintain pristine desktop row alignments */
-  min-height: 500px;
+  display: flex; /* Ensures inner dashboard can fill the stretched column height */
 }
 
+.quiz_comments_full_width_row {
+  width: 100%;
+  margin-top: 10px;
+}
 
 /* =========================================================================
-   📱 MOBILE & TABLET STACK REVERSAL OVERRIDE (Screens < 900px Wide)
+   📱 OVERRIDE RESPONSIVE BREAKPOINT CONTROLLERS (Screens <= 900px Wide)
    ========================================================================= */
-@media (max-width: 900px) {
+@media screen and (max-width: 900px) { 
   .quiz_layout_grid {
     flex-direction: column-reverse; 
     gap: 20px;
-    max-width: 750px; 
-    /* Maintain clean spacing parameters on wrapped screens */
-    padding: 20px 20px 40px 20px;
+    max-width: 750px;
+    padding: 20px;
+    align-items: flex-start; /* Resets stretching when stacked vertically */
   }
 
   .quiz_main_column,
   .quiz_sidebar_column {
     width: 100%;
     flex: none;
-    min-height: auto; /* Drops the height constraints completely on small viewports */
+  }
+
+  .quiz_comments_full_width_row {
+    width: 100%;
+    margin-top: 0;
   }
 }
