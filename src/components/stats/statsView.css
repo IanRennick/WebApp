@@ -1,0 +1,268 @@
+/* src/components/stats/statsView.css */
+
+.stats_dashboard_master_container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Tier 1: Three Core Snapshot Cards Row */
+.stats_metrics_row_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+
+.stats_snapshot_card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100px;
+}
+
+.snapshot_meta_label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.snapshot_main_value_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.snapshot_numeric_value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.elo_label_text,
+.fraction_divider_text,
+.percent_sign_text {
+  font-size: 1rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+/* Delta Indicators styles */
+.snapshot_delta_badge {
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.snapshot_delta_badge.delta_up { background: #f0fdf4; color: #16a34a; }
+.snapshot_delta_badge.delta_down { background: #fef2f2; color: #ef4444; }
+
+.snapshot_secondary_subtext_label { font-size: 0.85rem; color: #64748b; font-weight: 500; }
+
+/* Micro linear tracking bars inside Card 3 */
+.snapshot_accuracy_bar_track_wrapper {
+  width: 100px;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  align-self: center;
+}
+
+.snapshot_accuracy_bar_fill_line {
+  height: 100%;
+  background: #2563eb;
+  border-radius: 4px;
+  transition: width 300ms ease;
+}
+
+/* Tier 2: 2x2 Radar Web Array Grid */
+.stats_radar_matrix_2x2_grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+
+.radar_card_wrapper {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ✅ ITEM 4 FIXED: Centered headings across your 2x2 grid */
+.radar_card_title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 10px 0;
+  text-align: center; 
+}
+
+/* ✅ ITEM 1 FIXED: Smooth interactive pointer zoom scaling indicators */
+.radar_card_wrapper.interact_zoomable_card {
+  cursor: pointer;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.radar_card_wrapper.interact_zoomable_card:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+  border-color: #cbd5e1;
+}
+
+/* ✅ ITEM 2 FIXED: Interactive link labels color shifts inside radar webs */
+.radar_clickable_axis_link_label {
+  fill: #475569;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: fill 150ms ease;
+}
+
+.radar_clickable_axis_link_label:hover {
+  fill: #2563eb !important; 
+  text-decoration: underline;
+}
+
+/* Tier 3: Full Width Master Curve Card */
+.stats_timeline_chart_full_card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.timeline_card_main_heading {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.timeline_card_sub_heading {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 4px 0 0 0;
+}
+
+.stats_loading_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: #64748b;
+}
+
+/* Animating entry pass fades */
+.animate_fade_in { animation: fadeIn 0.3s ease-out forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* =========================================================================
+   🎈 ITEM 1 FIXED: SCREEN-RECONSTRUCTED FULL INTERACTIVE MODAL OVERLAYS
+   ========================================================================= */
+.stats_zoom_modal_backdrop_blur {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.6) !important; 
+  backdrop-filter: blur(8px) !important; 
+  -webkit-backdrop-filter: blur(8px) !important; 
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  
+  /* Locks the viewport safely above sidebars, headers, and dashboard panels */
+  z-index: 99999 !important; 
+  pointer-events: auto !important; 
+  
+  animation: modalFadeIn 180ms ease-out forwards;
+}
+
+.stats_zoom_modal_content_container_card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 16px !important;
+  width: 90% !important;
+  max-width: 640px !important;
+  padding: 24px !important;
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.25) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  z-index: 100000 !important; 
+  animation: modalScaleUp 220ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.stats_zoom_modal_top_bar {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  padding-bottom: 12px !important;
+  width: 100% !important;
+  margin-bottom: 16px !important;
+}
+
+.stats_zoom_modal_close_btn {
+  background: #f1f5f9 !important;
+  border: none !important;
+  font-size: 1.8rem !important;
+  color: #64748b !important;
+  cursor: pointer !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 150ms ease !important;
+}
+
+.stats_zoom_modal_close_btn:hover {
+  background: #fef2f2 !important;
+  color: #ef4444 !important;
+  transform: scale(1.08) !important;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalScaleUp {
+  from { transform: scale(0.93) translateY(10px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* =========================================================================
+   📱 RESPONSIVE WRAPPER SCREEN INTERCEPTORS
+   ========================================================================= */
+@media screen and (max-width: 1024px) {
+  .stats_metrics_row_grid { grid-template-columns: 1fr; gap: 14px; }
+  .stats_radar_matrix_2x2_grid { grid-template-columns: 1fr; gap: 14px; }
+}

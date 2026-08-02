@@ -8,6 +8,7 @@ import Puzzle from './puzzle/Puzzle';
 import ReviewDashboard from './dashboard/ReviewDashboard';
 import { CommentSection } from '../comments/CommentSection';
 import './quiz.css';
+import LoadingScreen from '../layout/loadingScreen/LoadingScreen';
 
 const ReviewMode: React.FC = () => {
   const { data: queue, isLoading, isError } = useGetReviewQueueQuery();
@@ -36,7 +37,10 @@ const ReviewMode: React.FC = () => {
     setCommentsVisible(false);
   }, [currentIndex]);
 
-  if (isLoading) return <div className="puzzle_container"><h2>Extracting your review queue deck...</h2></div>;
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
   if (isError || !queue) return <div className="puzzle_container"><h2>Failed to load your review deck context.</h2></div>;
   
   if (queue.length === 0 && currentIndex === 0) {

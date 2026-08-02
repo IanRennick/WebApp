@@ -1,14 +1,13 @@
 .account_sidebar_aside {
-  height: calc(100vh - 80px); /* Spans perfect viewport depth beneath your main 80px navbar */
+  /* ✅ FIXED: Swapped 'height' to 'min-height' to allow the container box to stretch or stack */
+  min-height: calc(100vh - 80px); 
   position: sticky;
   top: 80px;
-  transition: width 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
-  /* ✅ FIX #1: Force the flex architecture to respect width shifts and stop any layout stretching */
   flex-shrink: 0; 
 }
 
-/* ✅ FIX #1 (Continued): Use explicit widths and min-widths to guarantee the container physically shrinks */
 .account_sidebar_aside.expanded_aside { 
   width: 240px; 
   min-width: 240px;
@@ -25,7 +24,6 @@
   background: #ffffff;
   border-right: 1px solid #e2e8f0;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.02);
-  /* ✅ Ensure the inner card wrapper obeys the parent width limits */
   overflow: hidden; 
 }
 
@@ -68,11 +66,12 @@
 
 /* Nested Items Array list */
 .sidebar_items_unordered_list {
-  flex: 1;
   list-style: none;
   padding: 0 10px;
   margin: 10px 0 0 0;
 }
+
+
 
 .sidebar_item_row_li_wrapper {
   margin: 4px 0;
@@ -168,6 +167,7 @@
   align-items: center;
   background: #f8fafc;
   overflow: hidden;
+  margin-top: 20px; /* Adds a nice 20px padding gap beneath your last navigation link */
 }
 
 .sidebar_footer_profile_info_block {
@@ -240,4 +240,58 @@
   visibility: visible;
   opacity: 1;
   transform: translateX(0);
+}
+
+/* =========================================================================
+   📱 MOBILE RESPONSIVE SIDEBAR OVERRIDE BREAKPOINT (Screens <= 900px Wide)
+   ========================================================================= */
+@media screen and (max-width: 900px) {
+  .account_sidebar_aside {
+    width: 100% !important;
+    min-width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    position: relative !important;
+    top: 0 !important;
+  }
+
+  .sidebar_nav_frame {
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+    flex-direction: row; /* Horizontal menu strip layout for small screens! */
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+  }
+
+  /* Hide headers and collapse toggle buttons on phones to save space */
+  .sidebar_upper_header {
+    padding: 0;
+  }
+  .sidebar_branding_logo_text,
+  .sidebar_toggle_collapse_btn {
+    display: none !important;
+  }
+
+  .sidebar_items_unordered_list {
+    display: flex; /* Line up menu options in a clean horizontal strip row */
+    flex-direction: row;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sidebar_item_link_anchor {
+    padding: 8px 12px;
+  }
+
+  /* ✅ FIXED: Keeps your user footer metadata profile block out of the way on small screens */
+  .sidebar_account_footer_card {
+    border-top: none;
+    padding: 0;
+    background: transparent;
+  }
+  .sidebar_footer_profile_info_block {
+    display: none !important; /* Drops username text to stay ultra-compact on mobile layout frames */
+  }
 }

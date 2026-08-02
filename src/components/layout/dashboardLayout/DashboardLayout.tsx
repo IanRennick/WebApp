@@ -19,7 +19,7 @@ const DashboardLayout: React.FC = () => {
       {/* 🧭 PANEL 1: Shared Left Navigation Column Tray */}
       <Sidebar>
         <SidebarItem icon={<User size={18} />} text="Profile" to="/profile" />
-        <SidebarItem icon={<BarChart3 size={18} />} text="Statistics" to="/profile/stats" alert />
+        <SidebarItem icon={<BarChart3 size={18} />} text="Statistics" to="/stats" alert />
         <SidebarItem icon={<FileText size={18} />} text="My Writings" to="/profile/writings" />
         <SidebarItem icon={<Mic size={18} />} text="My Speakings" to="/profile/speakings" />
         <SidebarItem icon={<Settings size={18} />} text="Settings" to="/profile/settings" />

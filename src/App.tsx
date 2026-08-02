@@ -16,7 +16,8 @@ import LogInPage from './pages/auth/LogInPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import RequireAuth from './components/layout/RequireAuth';
 import PersistLogIn from './components/layout/PersistLogIn';
-import DashboardLayout from './components/layout/DashboardLayout/DashboardLayout';
+import DashboardLayout from './components/layout/dashboardLayout/DashboardLayout';
+import StatsPage from './pages/stats/StatsPage';
 
 const App: React.FC = () => {
   return (
@@ -58,6 +59,7 @@ const App: React.FC = () => {
             {/* 🔒 PROTECTED DASHBOARD PAGES: Automatically wrap inside your Sidebar Layout! */}
             <Route element={<DashboardLayout />}>
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/stats" element={<StatsPage />} />
             </Route>
             
           </Route>

@@ -1,0 +1,32 @@
+/* src/components/nav/layouts/dashboardLayout.css */
+
+.dashboard_layout_master_wrapper {
+  display: flex;
+  width: 100%;
+  /* Ensures the row stretches down to fill vertical space beneath your 80px navbar */
+  min-height: calc(100vh - 80px); 
+  background: #f8fafc; 
+  box-sizing: border-box;
+}
+
+.dashboard_layout_content_viewport {
+  flex: 1; /* Automatically expands to push the footer to the very bottom of the screen! */
+  padding: 30px;
+  box-sizing: border-box;
+  /* ✅ FIXED: Removed 'height: calc(100vh - 80px)' and 'overflow-y: auto' 
+     to destroy the double scrollbar bug forever and restore a single browser scroll! */
+  min-height: 100%;
+}
+
+/* =========================================================================
+   📱 MOBILE & TABLET STACK REVERSAL BREAKPOINT (Screens <= 900px Wide)
+   ========================================================================= */
+@media (max-width: 900px) { /* ✅ FIXED: Synced breakpoint cleanly to 900px line gates */
+  .dashboard_layout_master_wrapper {
+    flex-direction: column; /* Stack the sidebar menu right above your metrics views */
+  }
+  
+  .dashboard_layout_content_viewport {
+    padding: 20px;
+  }
+}

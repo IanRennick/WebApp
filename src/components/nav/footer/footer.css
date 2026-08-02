@@ -1,16 +1,20 @@
 .footer_container {
-    background-color: #101522;
+  background-color: #101522;
+  width: 100%;
+  margin-top: auto; /* ✅ CRITICAL: Auto margin-top tells the footer to lock itself flush to the bottom */
+  box-sizing: border-box;
 }
 
 .footer_wrapper {
-    padding: 48px 24px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 1100px;
-    margin: 0 auto;
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
 }
+
 
 .links_container {
     display: flex;

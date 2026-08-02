@@ -7,6 +7,7 @@ import ReviewQuiz from './ReviewMode';
 import { CommentSection } from '../comments/CommentSection';
 import { useQuizEngine } from '../../hooks/quiz/useQuizEngine';
 import './quiz.css';
+import LoadingScreen from '../layout/loadingScreen/LoadingScreen';
 
 const Quiz: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -24,7 +25,10 @@ const Quiz: React.FC = () => {
     return <ReviewQuiz />;
   }
 
-  if (randomEngine.isLoading) return <div className="puzzle_container"><h2>Loading exercise universe...</h2></div>;
+  if (randomEngine.isLoading) {
+    return <LoadingScreen />;
+  }
+
   if (randomEngine.isError || !randomEngine.puzzle) return <div className="puzzle_container"><h2>Failed to connect to backend routers.</h2></div>;
 
   return (

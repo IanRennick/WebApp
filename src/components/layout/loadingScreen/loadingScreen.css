@@ -1,0 +1,67 @@
+/* src/components/loading/loadingView.css */
+
+.platform_global_loader_fullscreen_wrapper {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - 160px); /* Centers comfortably between header and footers */
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+}
+
+.loader_branding_pulse_box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.loader_pulsing_brand_logo_icon {
+  font-size: 3.5rem;
+  color: #2563eb; /* Your royal blue brand accent line */
+  animation: logoPulseGlow 1.5s ease-in-out infinite;
+}
+
+.loader_typography_title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 16px 0 4px 0;
+  letter-spacing: -0.5px;
+}
+
+.loader_typography_subtext {
+  font-size: 0.9 / 0.85rem;
+  font-weight: 500;
+  color: #64748b;
+  margin: 0 0 20px 0;
+}
+
+/* Infinite sliding horizontal loading track bar layout */
+.loader_infinite_progress_track {
+  width: 160px;
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loader_infinite_progress_fill_glow {
+  position: absolute;
+  height: 100%;
+  width: 60px;
+  background: #2563eb;
+  border-radius: 4px;
+  animation: slideInfiniteProgress 1.2s infinite linear;
+}
+
+@keyframes logoPulseGlow {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.2)); }
+}
+
+@keyframes slideInfiniteProgress {
+  from { left: -60px; }
+  to { left: 160px; }
+}
