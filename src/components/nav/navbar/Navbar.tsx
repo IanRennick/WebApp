@@ -56,7 +56,7 @@ const Navbar: React.FC = () => {
           </li>
 
           <li className="menu_link_container" onClick={handleClose}>
-            <Link to="/" className="menu_link">Writings</Link>
+            <Link to="/writings" className="menu_link">Writings</Link>
           </li>
 
           <li className="menu_link_container" onClick={handleClose}>

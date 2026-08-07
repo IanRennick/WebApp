@@ -1,6 +1,6 @@
 // src/components/quiz/puzzle/Puzzle.tsx
 // =========================================================================
-// ENHANCED TRANSFORMATION PUZZLE PLAYER (AUTO-FOCUS & 2X2 GRID MATRIX V1)
+// FIXED HIGH-FIDELITY PUZZLE PLAYER (INPUT-LEVEL PARSING EXTENSION)
 // =========================================================================
 import React, { useState, useEffect } from 'react';
 import { FaRegCommentDots, FaRegFlag } from 'react-icons/fa'; 
@@ -53,7 +53,6 @@ const Puzzle: React.FC<PuzzleProps> = ({ engine, commentsVisible, setCommentsVis
   };
 
   // ✅ HIGH-FIDELITY SUB-WORD TOKENS HIGHLIGHTER ENGINE
-  // Analyzes prefix intersections to slice words into separate green and red tags!
   const renderPartialDiffLabel = (submitted: string, verified: string) => {
     const subClean = submitted.trim().toLowerCase();
     const verClean = verified.trim().toLowerCase();
@@ -84,6 +83,7 @@ const Puzzle: React.FC<PuzzleProps> = ({ engine, commentsVisible, setCommentsVis
     const baselineUnderscores = puzzle.kind === 3 ? '_________________________' : '____________';
     const firstCorrectAnswer = resultData?.correct_answers?.[0] || '';
 
+    // Gap turns blue and displays the correct answer on error/partial evaluations
     let embeddedText = userAnswer.trim() || baselineUnderscores;
     let textStateClass = 'sentence_blank_span';
 
@@ -91,7 +91,7 @@ const Puzzle: React.FC<PuzzleProps> = ({ engine, commentsVisible, setCommentsVis
       if (resultData.fully_correct) {
         textStateClass += ' text_green_bold';
       } else {
-        embeddedText = firstCorrectAnswer; // Force swap to correct solution string!
+        embeddedText = firstCorrectAnswer; 
         textStateClass += ' text_blue_typing';
       }
     } else if (userAnswer.trim()) {
@@ -162,7 +162,7 @@ const Puzzle: React.FC<PuzzleProps> = ({ engine, commentsVisible, setCommentsVis
 
       {renderDynamicSentence()}
 
-      {/* Multiple Choice Options List (2x2 Grid) */}
+      {/* Multiple Choice Options List */}
       {puzzle.kind === 0 && puzzle.options && puzzle.options.length > 0 && (
         <ul className="options_list_wrapper">
           {puzzle.options.map((option: string, index: number) => {
@@ -196,21 +196,33 @@ const Puzzle: React.FC<PuzzleProps> = ({ engine, commentsVisible, setCommentsVis
       {/* Open Entry Input Text Fields */}
       {puzzle.kind !== 0 && (
         <div className="text_input_wrapper">
-          <input 
-            className={`puzzle_input ${isAnswered ? (resultData?.fully_correct ? 'correct' : 'incorrect') : ''}`}
-            type="text" 
-            placeholder="Type answer..."
-            value={userAnswer}
-            onChange={(e) => setUserAnswer(e.target.value)}
-            disabled={isAnswered}
-            autoFocus
-          />
+          
+          {/* ✅ CONDITION 1: Answered & Incorrect/Partial -> Swap input box for dynamic highlighted div */}
+          {isAnswered && !resultData?.fully_correct ? (
+            <div className="puzzle_input incorrect mock_input_display_field">
+              {renderPartialDiffLabel(userAnswer, resultData?.correct_answers?.[0] || '')}
+            </div>
+          ) : (
+            /* Standard interactive text field when active typing or correct status holds */
+            <input 
+              className={`puzzle_input ${isAnswered && resultData?.fully_correct ? 'correct' : ''}`}
+              type="text" 
+              placeholder="Type answer..."
+              value={userAnswer}
+              onChange={(e) => setUserAnswer(e.target.value)}
+              disabled={isAnswered}
+              autoFocus
+            />
+          )}
 
+          {/* ✅ CONDITION 2: Bottom solution card container utilizes separate class 
+              to wipe out the double-height bug while rendering the pristine target solution string */}
           {isAnswered && !resultData?.fully_correct && resultData?.correct_answers && resultData.correct_answers.length > 0 && (
-            <div className="puzzle_option correct" style={{ marginTop: '15px', fontWeight: 'bold' }}>
+            <div className="puzzle_input_solution_chip correct" style={{ marginTop: '15px', fontWeight: 'bold' }}>
               {resultData.correct_answers[0]}
             </div>
           )}
+
         </div>
       )}
 

@@ -1,0 +1,227 @@
+.essay_workspace_grid_container {
+  display: flex;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
+  
+  /* ✅ FIXED HEIGHT TRACKS: Swapped out 'height: 620px' for auto properties 
+     to destroy the internal instructions pane scrollbars completely! */
+  min-height: 560px;
+  height: auto; 
+  
+  overflow: hidden;
+  box-sizing: border-box;
+  margin: 0 0 60px 0;
+}
+
+/* ✅ ITEM 2 FIXED: Custom styling for your clean new top navigation link anchor strip */
+.editor_back_to_menu_anchor_btn {
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 0 16px 4px;
+  transition: color 100ms ease;
+}
+.editor_back_to_menu_anchor_btn:hover { color: #1d4ed8; text-decoration: underline; }
+.back_arrow_chevron { font-size: 1.3rem; line-height: 0; }
+
+/* Panel 1: Left Columns Prompt Drawer Rules */
+.essay_workspace_prompt_sidebar {
+  background: #f8fafc;
+  border-right: 1px solid #e2e8f0;
+  
+  /* ✅ FIXED HEIGHT TRACKS: Match parent heights fluidly without independent blocks locks */
+  height: auto;
+  min-height: 100%;
+  
+  transition: width 250ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease;
+  flex-shrink: 0;
+}
+
+.essay_workspace_prompt_sidebar.panel_open { width: 320px; opacity: 1; }
+.essay_workspace_prompt_sidebar.panel_hidden { width: 0; opacity: 0; pointer-events: none; border-right: none; }
+
+.prompt_sidebar_inner_content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 320px; 
+  box-sizing: border-box;
+}
+
+.prompt_badge_tier {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #2563eb;
+  background: #eff6ff;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* ✅ ITEM 4 FIXED: Sleek minimalist icon-only buttons for guideline triggers */
+.toolbar_utility_icon_only_btn {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 150ms ease;
+}
+.toolbar_utility_icon_only_btn:hover { background: #e2e8f0; color: #0f172a; transform: scale(1.04); }
+.toolbar_utility_icon_only_btn.open_pane_trigger_btn { background: #ffffff; border-color: #cbd5e1; }
+
+.prompt_sidebar_heading {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 14px 0 16px 0;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+}
+
+.prompt_scrollable_criteria_wrapper {
+  flex: 1;
+  /* ❌ REMOVED: 'overflow-y: auto' -> Stripping this away cancels out the 
+     inner instructions page layout scrollbar forever! */
+  overflow-y: visible; 
+  padding-right: 0;
+}
+
+.prompt_situation_paragraph {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #475569;
+  margin: 0 0 16px 0;
+}
+
+.prompt_section_sub_title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 16px 0 8px 0;
+}
+
+.prompt_bullet_points_list {
+  padding-left: 18px;
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #475569;
+}
+.prompt_bullet_points_list li { margin-bottom: 6px; }
+.prompt_bullet_points_list.directive_list li { color: #0f172a; font-weight: 500; }
+
+.prompt_sidebar_footer_bounds {
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 14px;
+  margin-top: auto;
+  font-size: 0.9rem;
+  color: #1e293b;
+}
+
+/* Panel 2: Right Columns Plain-Text Textarea Canvas Grid */
+.essay_workspace_editor_column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.editor_workspace_top_toolbar_strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
+  min-height: 57px;
+  box-sizing: border-box;
+}
+
+.editor_autosave_status_badge { font-size: 0.82rem; font-weight: 600; }
+.text_saving_pulse { color: #d97706; animation: textPulse 1s infinite alternate; }
+.text_saved_solid { color: #16a34a; }
+
+/* The True Longform Plain-Text Input Area */
+.essay_workspace_textarea_field {
+  flex: 1;
+  width: 100%;
+  padding: 24px;
+  border: none;
+  resize: none;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #0f172a;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+  background: #ffffff;
+  
+  /* ✅ FIXED CANVAS LOCK: Gives the editor a spacious, premium height on mount 
+     while keeping it fluid so it can stretch beautifully if they type a long essay! */
+  min-height: 450px; 
+}
+.essay_workspace_textarea_field:disabled { 
+  background: #f8fafc; 
+  cursor: not_allowed; 
+}
+.editor_workspace_bottom_footer_actions_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-top: 1px solid #e2e8f0;
+  background: #fafafa;
+}
+
+/* Word counter status class highlights */
+.editor_live_word_counter_badge { font-size: 0.9rem; padding: 6px 12px; border-radius: 6px; font-weight: 500; }
+.editor_live_word_counter_badge.count_normal { background: #f1f5f9; color: #334155; }
+.editor_live_word_counter_badge.count_under_warning { background: #fffbeb; color: #b45309; }
+.editor_live_word_counter_badge.count_overflow_danger { background: #fef2f2; color: #b91c1c; }
+.bounds_target_span_text { color: #94a3b8; font-size: 0.8rem; margin-left: 2px; }
+
+.editor_footer_action_buttons_group { display: flex; gap: 10px; }
+
+.editor_footer_btn {
+  padding: 10px 18px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 150ms ease;
+}
+
+.editor_footer_btn.btn_primary_blue { background: #2563eb; color: #ffffff; }
+.editor_footer_btn.btn_primary_blue:hover:not(:disabled) { background: #1d4ed8; }
+.editor_footer_btn:disabled { background: #e2e8f0; color: #94a3b8; cursor: not_allowed; }
+
+@keyframes textPulse { from { opacity: 0.6; } to { opacity: 1; } }
+
+/* Mobile Stack Layout Reversal Overrides */
+@media (max-width: 768px) {
+  .essay_workspace_grid_container { flex-direction: column; height: auto; min-height: 600px; margin-bottom: 40px; }
+  .essay_workspace_prompt_sidebar { width: 100% !important; height: auto; border-right: none; border-bottom: 1px solid #e2e8f0; }
+  .prompt_sidebar_inner_content { width: 100%; padding: 16px; }
+  .essay_workspace_textarea_field { min-height: 300px; }
+}

@@ -9,7 +9,7 @@ import './commentSection.css';
 
 interface CommentSectionProps {
   commentableId: number;
-  commentableType: 'Question' | 'Writing';
+  commentableType: 'Question' | 'Prompt';
   rootComments: ForumComment[];
 }
 
@@ -58,7 +58,7 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ commentableId, c
 
 interface CommentListProps {
   commentableId: number;
-  commentableType: 'Question' | 'Writing';
+  commentableType: 'Question' | 'Prompt';
   comments: ForumComment[];
 }
 
@@ -76,7 +76,7 @@ const CommentList: React.FC<CommentListProps> = ({ commentableId, commentableTyp
 
 interface CommentCardProps {
   commentableId: number;
-  commentableType: 'Question' | 'Writing';
+  commentableType: 'Question' | 'Prompt';
   comment: ForumComment;
 }
 

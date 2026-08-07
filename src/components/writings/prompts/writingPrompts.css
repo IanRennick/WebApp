@@ -1,0 +1,196 @@
+.writings_explorer_master_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  /* ✅ ITEM 1 FIXED: Added a premium 10px side margin and 60px bottom margin padding space 
+     to provide perfect separation gaps away from sidebars and footer content lines! */
+  padding: 12px 12px 60px 10px;
+}
+
+/* Filtering Toolbar Strip Row */
+.explorer_filter_toolbar_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: #ffffff;
+  padding: 14px 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
+  box-sizing: border-box;
+}
+
+.explorer_tab_strip {
+  display: flex;
+  background: #f1f5f9;
+  padding: 3px;
+  border-radius: 8px;
+  gap: 4px;
+}
+
+.explorer_tab_btn {
+  padding: 6px 14px;
+  border: none;
+  background: transparent;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 150ms ease;
+}
+
+.explorer_tab_btn.tab_active {
+  background: #ffffff;
+  color: #2563eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.explorer_level_select_box_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter_select_label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.explorer_native_select_dropdown {
+  padding: 6px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e293b;
+  outline: none;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+/* 2x2 or 3x3 Card Grid Grid */
+.explorer_prompts_cards_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.prompt_menu_selection_card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  cursor: pointer;
+  min-height: 160px;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+}
+
+.prompt_menu_selection_card:hover {
+  transform: translateY(-2px);
+  border-color: #cbd5e1;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
+}
+
+.prompt_card_top_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.prompt_card_level_tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #3730a3;
+  background: #e0e7ff;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.prompt_card_type_badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #047857;
+  background: #ecfdf5;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+.prompt_card_main_title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 14px 0 6px 0;
+  line-height: 1.35;
+}
+
+.prompt_card_topic_meta_text {
+  font-size: 0.8rem;
+  color: #3b82f6; /* Beautiful soft blue hashtag links notation style */
+  margin: 0;
+  font-weight: 600;
+}
+
+.prompt_card_footer_stats_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 12px;
+  margin-top: 16px;
+  font-size: 0.78rem;
+  width: 100%;
+}
+
+.card_meta_attempts_count {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+}
+
+/* ✅ ITEM 6 FIXED: Status-dependent color theme profiles */
+.card_meta_attempts_count.task_status_done { color: #16a34a; }
+.card_meta_attempts_count.task_status_pending { color: #94a3b8; }
+
+.card_action_prompt_preview_link.text_action_start_link {
+  color: #2563eb;
+  font-weight: 700;
+  transition: color 100ms ease;
+}
+.prompt_menu_selection_card:hover .text_action_start_link {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.explorer_empty_splash_box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  text-align: center;
+  color: #64748b;
+}
+.explorer_empty_splash_box h3 { margin: 12px 0 4px 0; color: #1e293b; }
+
+@media (max-width: 900px) {
+  .writings_explorer_master_wrapper { padding: 0 10px 40px 10px; }
+  .explorer_filter_toolbar_container { flex-direction: column; gap: 14px; align-items: flex-start; }
+}
