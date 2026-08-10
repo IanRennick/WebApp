@@ -1,0 +1,136 @@
+@import '../../writings/prompts/writingPrompts.css';
+
+/* Master flex wrapper splits panels side-by-side */
+.speaking_submission_container {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 24px !important;
+  align-items: flex-start !important;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 12px 60px 10px;
+}
+
+/* 🖼️ LEFT COLUMN: THE PHOTOGRAPHIC DIRECTIVE CANVAS */
+.speakings_workspace_left_directive_column {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 🎙️ RIGHT COLUMN: LOWERED MEDIA RECORDER SIDEBAR DECK */
+.speakings_workspace_right_recorder_column {
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* ✅ ITEM A FIXED: Commands the dashboard to center itself perfectly 
+     vertically relative to the photo card depth instead of floating too high! */
+  align-self: center !important; 
+  margin-top: 0 !important;
+}
+
+/* Photo prompt container box bounds constraints */
+.speakings_workspace_photo_frame {
+  width: 100%;
+  height: 340px; 
+  max-height: 380px;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.speakings_workspace_photo_frame img {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important; 
+}
+
+/* Centered priority blue question styling */
+.speakings_workspace_centered_question_block {
+  font-style: italic;
+  color: #2563eb;
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-align: center;
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  margin: 14px 0 0 0;
+}
+
+/* Active recording clock pulse */
+.text_recording_pulse_glow {
+  color: #dc2626;
+  animation: recordingPulse 1.2s infinite ease-in-out alternate;
+}
+
+/* Compact, fixed audio player chip footprint */
+.audio_preview_review_card_deck {
+  background: #f8fafc;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  width: 260px; 
+  margin: 0 auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.01);
+  box-sizing: border-box;
+}
+
+.audio_preview_review_card_deck audio {
+  width: 100%;
+  outline: none;
+}
+
+/* Forces content buttons and timers to centralise on desktop and mobile */
+.speakings_workspace_right_recorder_column .card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.speaking_submission_container .editor_footer_btn,
+.speaking_submission_container .next_button {
+  width: 180px !important; 
+  margin: 0 auto !important;
+  display: inline-flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  box-sizing: border-box;
+}
+
+@keyframes recordingPulse {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+/* Stacking fallback profiles optimized for responsive layouts */
+@media (max-width: 991px) {
+  .speaking_submission_container {
+    flex-direction: column !important;
+    gap: 20px !important;
+    align-items: center !important;
+  }
+  .speakings_workspace_left_directive_column,
+  .speakings_workspace_right_recorder_column {
+    width: 100% !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .speakings_workspace_photo_frame {
+    height: 260px;
+  }
+}

@@ -60,7 +60,7 @@ const Navbar: React.FC = () => {
           </li>
 
           <li className="menu_link_container" onClick={handleClose}>
-            <Link to="/" className="menu_link">Speakings</Link>
+            <Link to="/speakings" className="menu_link">Speakings</Link>
           </li>
 
           {/* INTERACTIVE ACCESS GATEWAY BUTTON */}

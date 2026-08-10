@@ -194,3 +194,94 @@
   .writings_explorer_master_wrapper { padding: 0 10px 40px 10px; }
   .explorer_filter_toolbar_container { flex-direction: column; gap: 14px; align-items: flex-start; }
 }
+
+
+
+/* =========================================================================
+   🎈 PORTAL MATRIX DECK OVERLAYS (MIRRORED STATS DASHBOARD STANDARDS)
+   ========================================================================= */
+
+/* The full-screen background overlay layer */
+.stats_zoom_modal_backdrop_blur {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(15, 23, 42, 0.4) !important;
+  backdrop-filter: blur(8px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 9999 !important;
+}
+
+/* The card window framework */
+.writing_preview_expanded_modal_card {
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  border: 1px solid #e2e8f0 !important;
+  padding: 24px !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  
+  /* ✅ FIXED CONTRAST BOUNDS: Locks down maximum viewport size limits 
+     to prevent the modal content cells from bleeding off the bottom monitor edge! */
+  width: 90% !important;
+  max-width: 720px !important;
+  height: 80vh !important; 
+  max-height: 640px !important;
+  
+  display: flex !important;
+  flex-direction: column !important; /* Forces a stacked vertical workflow layout */
+  overflow: hidden !important; /* Kills any outer wrapper layout scrollbars */
+  box-sizing: border-box !important;
+}
+
+/* Header bar strip pinned layout anchors */
+.stats_zoom_modal_top_bar {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  flex-shrink: 0 !important; /* Restricts the header from collapsing */
+  border-bottom: 1px solid #f1f5f9 !important;
+  padding-bottom: 12px !important;
+  box-sizing: border-box !important;
+}
+
+/* Custom micro exit button pointer styling */
+.stats_zoom_modal_close_btn {
+  background: none !important;
+  border: none !important;
+  font-size: 1.8rem !important;
+  font-weight: 300 !important;
+  line-height: 1 !important;
+  color: #94a3b8 !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  transition: color 100ms ease !important;
+}
+.stats_zoom_modal_close_btn:hover {
+  color: #0f172a !important;
+}
+
+/* THE CONTENT VIEWPORT CORE: Injects fluid inner scrolling with a hidden scrollbar! */
+.preview_modal_scrollable_body_viewport {
+  flex: 1 !important; 
+  overflow-y: auto !important; 
+  padding-right: 4px !important;
+  margin-top: 14px !important;
+  box-sizing: border-box !important;
+  
+  /* ✅ FIXED AESTHETICS: Disables the native visible scrollbar block track in Firefox */
+  scrollbar-width: none !important; 
+  /* Disables standard desktop layout text select line breaking jumps */
+  -ms-overflow-style: none !important; 
+}
+
+/* ✅ FIXED AESTHETICS: Disables the visible scrollbar track across WebKit (Chrome, Safari, Edge) natively! */
+.preview_modal_scrollable_body_viewport::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}

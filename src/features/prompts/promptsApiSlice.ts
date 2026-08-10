@@ -22,6 +22,7 @@ export interface ExamPromptNode {
 
 export interface SubmissionPayloadNode {
   id: number;
+  prompt_id: number; 
   prompt_title: string;
   prompt_type: 'writing' | 'speaking';
   status: 'draft' | 'submitted' | 'corrected';

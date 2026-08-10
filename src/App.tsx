@@ -19,6 +19,7 @@ import PersistLogIn from './components/layout/PersistLogIn';
 import DashboardLayout from './components/layout/dashboardLayout/DashboardLayout';
 import StatsPage from './pages/stats/StatsPage';
 import WritingsPage from './pages/writings/WritingsPage';
+import SpeakingsPage from './pages/speakings/SpeakingsPage';
 
 const App: React.FC = () => {
   return (
@@ -58,6 +59,7 @@ const App: React.FC = () => {
             <Route path="/quiz" element={<QuizPage />} />
 
             <Route path="/writings" element={<WritingsPage />} />
+            <Route path="/speakings" element={<SpeakingsPage />} />
 
             {/* 🔒 PROTECTED DASHBOARD PAGES: Automatically wrap inside your Sidebar Layout! */}
             <Route element={<DashboardLayout />}>
