@@ -23,6 +23,7 @@ export interface AuthResponse {
     rating: number;
     cefr_level: string; 
     unread_notifications_count: number;
+    avatar_url: string | null; // 🚀 Added to clear out compilation boundaries
   } | null;
 }
 

@@ -1,0 +1,255 @@
+/* src/components/chats/chatBubbleWidget/chatBubbleWidget.css */
+
+.helpdesk_floating_widget_container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999; /* Floats over navbars, layout viewports, and side drawers */
+  font-family: system-ui, -apple-system, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+/* ⚡ FLOATING BUBBLE CIRCLE HOVER LAUNCHER SELECTION BUTTON */
+.helpdesk_floating_trigger_bubble_launcher {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #2563eb; /* Platform classic corporate royal sapphire blue */
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+.helpdesk_floating_trigger_bubble_launcher:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.06) rotate(8deg);
+  box-shadow: 0 6px 16px rgba(29, 78, 216, 0.35);
+}
+
+.helpdesk_floating_trigger_bubble_launcher.launcher_active {
+  background-color: #ef4444; /* Snaps to crisp danger red when open */
+  transform: rotate(-90deg);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+}
+
+/* 🔮 EXPANDABLE MAIN SUPPORT BOX CONTAINER CHAT CARD DISPLAY WINDOW */
+.helpdesk_chat_card_window {
+  width: 360px;
+  height: 480px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+  animation: helpdeskBoxPopup 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: bottom right;
+  /* ✅ ITEM B FIXED: Adjusted spacing margins positions your card box beautifully 
+     now that the old floating launcher circle hides itself out of the way when active! */
+  margin-bottom: 0px !important; 
+}
+
+/* WINDOW TRAYS MANAGEMENT HEADER BAR RIBBON AREA */
+.helpdesk_chat_header_ribbon {
+  background-color: #1e293b; /* Deep slate charcoal premium tone */
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+}
+
+.helpdesk_header_identity_cluster {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.helpdesk_online_status_sparkle_badge {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981; /* High visibility online emerald green indicator dot */
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  animation: helpdeskSparkle 2s infinite;
+}
+
+.helpdesk_title_string {
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin: 0;
+  color: #ffffff;
+}
+
+.helpdesk_sub_string {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin: 1px 0 0 0;
+}
+
+.helpdesk_close_action_btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  border-radius: 4px;
+  transition: all 120ms ease;
+}
+
+.helpdesk_close_action_btn:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* CENTRAL CHAT BALLOON TIMELINE LEDGER CANVAS */
+.helpdesk_chat_timeline_canvas {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  background-color: #f8fafc; /* Premium smooth workspace grey texture */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.helpdesk_chat_timeline_splash_loading,
+.helpdesk_chat_timeline_splash_empty {
+  font-size: 0.8rem;
+  color: #64748b;
+  text-align: center;
+  margin: auto 0;
+  padding: 0 20px;
+  line-height: 1.4;
+}
+
+/* BALLOON PACKETS LAYOUT SPECIFICATIONS */
+.helpdesk_message_row_balloon {
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+}
+
+.helpdesk_balloon_metadata_header_label {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  margin-bottom: 3px;
+  padding: 0 4px;
+}
+
+.helpdesk_balloon_text_body_string {
+  font-size: 0.86rem;
+  line-height: 1.4;
+  padding: 10px 14px;
+  border-radius: 10px;
+  word-break: break-word;
+}
+
+/* Authorship configuration states selectors mapping */
+.helpdesk_message_row_balloon.balloon_is_me {
+  align-self: flex-end;
+}
+.helpdesk_message_row_balloon.balloon_is_me .helpdesk_balloon_metadata_header_label {
+  text-align: right;
+}
+.helpdesk_message_row_balloon.balloon_is_me .helpdesk_balloon_text_body_string {
+  background-color: #2563eb;
+  color: #ffffff;
+  border-bottom-right-radius: 2px; /* Chat bubble sharp trailing clip cut */
+}
+
+.helpdesk_message_row_balloon.balloon_is_them {
+  align-self: flex-start;
+}
+.helpdesk_message_row_balloon.balloon_is_them .helpdesk_balloon_text_body_string {
+  background-color: #ffffff;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  border-bottom-left-radius: 2px;
+}
+
+/* FOOTER INBOUND UTILITY COMPOSITION COMPILER FORM AREA */
+.helpdesk_chat_form_footer_compiler {
+  padding: 12px;
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.helpdesk_chat_form_footer_compiler input {
+  flex: 1;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 150ms ease;
+  color: #0f172a;
+}
+
+.helpdesk_chat_form_footer_compiler input:focus {
+  border-color: #2563eb;
+}
+
+.helpdesk_send_action_submit_btn {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.helpdesk_send_action_submit_btn:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+.helpdesk_send_action_submit_btn:disabled {
+  background-color: #e2e8f0;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* KEYFRAMES RESPONSIVE TRANSFORMATIONS ANIMATIONS */
+@keyframes helpdeskBoxPopup {
+  from { opacity: 0; transform: scale(0.85) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes helpdeskSparkle {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* 📱 MOBILE SCREEN OPTIMIZATIONS (Adaptive scaling adjustments) */
+@media screen and (max-width: 480px) {
+  .helpdesk_floating_widget_container {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    align-items: flex-end;
+  }
+  .helpdesk_chat_card_window {
+    width: calc(100vw - 32px);
+    height: calc(100vh - 100px);
+    max-height: 520px;
+  }
+}

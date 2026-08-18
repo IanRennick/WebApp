@@ -5,22 +5,33 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-// ✅ NEW: Strict interface representing your synchronized Rails user profile schema
 export interface UserProfileData {
+  id: number; 
   username: string;
   rating: number;
   cefrLevel: string;
-  unreadNotificationsCount: number;
+  avatarUrl: string | null; 
 }
 
 interface AuthState {
   token: string | null;
-  user: UserProfileData | null; // ✅ NEW: Global User Profile State Cell Anchor
+  user: UserProfileData | null; 
 }
 
+// ✅ FIXED INTERFACE PAYLOAD: Declare all possible incoming backend properties 
+// as optional fields to satisfy the compiler without breaking your working data paths!
 interface SetCredentialsPayload {
-  token: string;
-  user: UserProfileData | null; // ✅ NEW: Captured from the updated Rails controller response
+  token?: string;
+  access_token?: string;
+  user?: any; 
+  id?: number;
+  user_id?: number;
+  username?: string;
+  rating?: number;
+  cefr_level?: string;
+  cefrLevel?: string;
+  avatar_url?: string | null;
+  avatarUrl?: string | null;
 }
 
 const initialState: AuthState = {
@@ -36,9 +47,21 @@ const authSlice = createSlice({
     // 1. DATA CACHE REGISTRATION ACTION (SET CREDENTIALS)
     // ---------------------------------------------------------------------
     setCredentials: (state, action: PayloadAction<SetCredentialsPayload>) => {
-      const { token, user } = action.payload;
+      // ✅ RESTORED WORKFLOW: Running your exact working assignment statements!
+      const token = action.payload?.token || action.payload?.access_token || state.token;
+      const rawUser = action.payload?.user || action.payload;
+
       state.token = token;
-      state.user = user;
+      
+      if (rawUser && rawUser.username) {
+        state.user = {
+          id: Number(rawUser.id || rawUser.user_id || 0),
+          username: rawUser.username,
+          rating: Number(rawUser.rating || 1200),
+          cefrLevel: rawUser.cefrLevel || rawUser.cefr_level || 'B2',
+          avatarUrl: rawUser.avatarUrl || rawUser.avatar_url || null
+        };
+      }
     },
 
     // ---------------------------------------------------------------------
@@ -46,36 +69,41 @@ const authSlice = createSlice({
     // ---------------------------------------------------------------------
     removeCredentials: (state) => {
       state.token = null;
-      state.user = null; // Clean out user profile memory context on logout
+      state.user = null; 
     },
 
     // ---------------------------------------------------------------------
-    // 3. ✅ NEW: ACTIVE USER METRICS INTERCEPTOR (UPDATE USER METRICS)
+    // 3. ACTIVE USER METRICS INTERCEPTOR (UPDATE USER METRICS)
     // ---------------------------------------------------------------------
-    // Allows components like Puzzle.tsx to dynamically update the user's running
-    // global rating or notifications directly inside state memory on submission cycles!
-    // ---------------------------------------------------------------------
-    updateUserMetrics: (state, action: PayloadAction<Partial<UserProfileData>>) => {
+    updateUserMetrics: (state, action: PayloadAction<any>) => {
       if (state.user) {
-        state.user = { ...state.user, ...action.payload };
+        const incoming = action.payload;
+        
+        const normalizedAvatar = incoming?.avatarUrl || incoming?.avatar_url || state.user.avatarUrl;
+        const normalizedLevel = incoming?.cefrLevel || incoming?.cefr_level || state.user.cefrLevel;
+        const normalizedUsername = incoming?.username || state.user.username;
+        const normalizedRating = incoming?.rating !== undefined ? Number(incoming.rating) : state.user.rating;
+        const normalizedId = incoming?.id !== undefined ? Number(incoming.id) : state.user.id;
+
+        state.user = {
+          id: normalizedId,
+          username: normalizedUsername,
+          rating: normalizedRating,
+          cefrLevel: normalizedLevel,
+          avatarUrl: normalizedAvatar
+        };
       }
     }
   }
 });
 
-// Export atomic execution triggers for distribution to views or hooks
 export const { setCredentials, removeCredentials, updateUserMetrics } = authSlice.actions;
 
 interface RootStateContext {
   auth: AuthState;
 }
 
-// -------------------------------------------------------------------------
-// 4. GLOBAL MEMORY EXTRACTOR WINDOWS (STATE SELECTORS)
-// -------------------------------------------------------------------------
 export const selectCurrentToken = (state: RootStateContext) => state.auth.token;
-
-// ✅ NEW: Synchronous global selector hooks to read user info with zero loading delay
 export const selectCurrentUser = (state: RootStateContext) => state.auth.user;
 export const selectCurrentUserElo = (state: RootStateContext) => state.auth.user?.rating || 1200;
 

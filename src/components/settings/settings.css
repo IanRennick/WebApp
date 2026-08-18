@@ -1,0 +1,258 @@
+/* src/components/profile/settings/settingsWorkspace.css */
+@import '../../components//writings/prompts/writingPrompts.css';
+
+/* Core page card wrapping bounds */
+.settings_workspace_master_grid {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  animation: settingsFadeIn 250ms ease-out;
+  padding-bottom: 60px;
+}
+
+/* Polished content presentation card layout */
+.settings_form_card_wrapper {
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  border: 1px solid #e2e8f0 !important;
+  padding: 36px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+  box-sizing: border-box !important;
+}
+
+/* ✅ ITEM A FIXED: Centered page intro header block with generous bottom padding */
+.settings_page_centered_header_wrapper {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  margin-bottom: 32px !important;
+  width: 100% !important;
+}
+
+/* 🖼️ AVATAR PICTURE STRIP ZONE ALIGNMENTS */
+.settings_avatar_uploader_row_strip {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.settings_avatar_preview_circle_frame {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; 
+  transition: all 150ms ease;
+}
+
+.settings_avatar_preview_circle_frame:hover {
+  border-color: #2563eb;
+  background: #f1f5f9;
+}
+
+.settings_avatar_preview_circle_frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar_initial_fallback_string {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #64748b;
+}
+
+.avatar_upload_camera_overlay_badge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(15, 23, 42, 0.65);
+  color: #ffffff;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ✅ ITEM B FIXED: Polished photo upload selection button tracker */
+.settings_avatar_uploader_row_strip .btn-outline-secondary {
+  border: 1px solid #cbd5e1 !important;
+  background-color: #ffffff !important;
+  color: #475569 !important;
+  padding: 8px 20px !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  transition: all 150ms ease !important;
+}
+
+.settings_avatar_uploader_row_strip .btn-outline-secondary:hover {
+  background-color: #f8fafc !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+/* 📋 FORM STRUCTURAL SPACING CONSTRAINTS */
+.settings_native_multipart_form .form-label {
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  color: #475569 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  margin-bottom: 8px !important; 
+  display: block !important;
+}
+
+.settings_native_multipart_form .form-control,
+.settings_native_multipart_form .form-select {
+  border-radius: 8px !important;
+  border: 1px solid #cbd5e1 !important;
+  padding: 10px 14px !important;
+  font-size: 0.92rem !important;
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+  transition: all 150ms ease !important;
+  box-sizing: border-box !important;
+  max-width: 460px; /* Shortened width limits keep smaller input lines aesthetic */
+}
+
+.settings_native_multipart_form .col-md-6,
+.settings_native_multipart_form .col-md-4,
+.settings_native_multipart_form .mt-4 {
+  margin-bottom: 20px !important; /* Added vertical margin to stop fields touching */
+}
+
+.settings_native_multipart_form .form-control:focus,
+.settings_native_multipart_form .form-select:focus {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+  outline: none !important;
+}
+
+/* ✅ ITEM C FIXED: Forces the biography textarea to occupy 100% full width of card component on desktop */
+.settings_native_multipart_form textarea.form-control {
+  max-width: 100% !important;
+  width: 100% !important;
+  min-height: 120px !important;
+  resize: none !important;
+}
+
+.settings_isolated_bio_area_block {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 24px 0;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* 🔒 PASSWORD SECURITY DRAWER BOX CARD */
+.settings_password_security_vault_card {
+  background: #fafafa !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  padding: 24px !important;
+  margin-top: 24px;
+  box-sizing: border-box !important;
+}
+
+.settings_password_security_vault_card .form-control {
+  max-width: 100% !important; /* Allow password fields to expand symmetrically inside subgrid */
+}
+
+/* ✅ ITEM B FIXED: Premium, high-contrast Save Changes action button styling */
+.settings_workspace_master_grid .btn-primary {
+  background-color: #10b981 !important; /* Premium Emerald/Mint Green instead of standard blue */
+  border-color: #10b981 !important;
+  border-radius: 8px !important;
+  padding: 10px 28px !important;
+  font-weight: 700 !important;
+  font-size: 0.92rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  color: #ffffff !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 150ms ease !important;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1) !important;
+}
+
+.settings_workspace_master_grid .btn-primary:hover {
+  background-color: #059669 !important;
+  border-color: #059669 !important;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2) !important;
+}
+
+/* Deactivate Account Danger Zone layout element card */
+.settings_deactivate_danger_zone_block {
+  border: 1px solid #fecaca;
+  background-color: #fef2f2;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-sizing: border-box !important;
+}
+
+@keyframes settingsFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================================
+   📱 MOBILE RESPONSIVE ADAPTATIONS OVERRIDES BREAKPOINT (Screens <= 900px Wide)
+   ========================================================================= */
+@media screen and (max-width: 900px) {
+  .settings_workspace_master_grid {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow-x: hidden !important;
+  }
+  
+  .settings_form_card_wrapper {
+    padding: 20px !important;
+    border-radius: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .settings_native_multipart_form .form-control,
+  .settings_native_multipart_form .form-select {
+    max-width: 100% !important;
+  }
+
+  .settings_native_multipart_form .row {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+  }
+  
+  .settings_native_multipart_form .col-md-6,
+  .settings_native_multipart_form .col-md-4 {
+    width: 100% !important;
+  }
+  
+  .settings_page_centered_header_wrapper {
+    margin-bottom: 24px !important;
+  }
+}

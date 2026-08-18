@@ -25,8 +25,10 @@ export interface SubmissionPayloadNode {
   prompt_id: number; 
   prompt_title: string;
   prompt_type: 'writing' | 'speaking';
+  prompt_photo_url?: string | null; 
   status: 'draft' | 'submitted' | 'corrected';
   student_payload: string;
+  audio_url?: string | null; 
   final_result: number | null;
   scores: Record<string, number>;
   teacher_feedback_html: string | null;

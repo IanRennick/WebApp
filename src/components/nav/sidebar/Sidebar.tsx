@@ -61,6 +61,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ children }) => {
 
         <div className="sidebar_account_footer_card">
           <Avatar 
+            /* ✅ FIXED: Spits out the custom image avatar file if present in state! */
+            src={user?.avatarUrl || undefined}
             sx={{ 
               bgcolor: '#c7d2fe', 
               color: '#3730a3', 
@@ -71,7 +73,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ children }) => {
               borderRadius: '6px'
             }}
           >
-            {userInitial}
+            {/* Native initial fallback if string image path is empty */}
+            {!user?.avatarUrl && userInitial}
           </Avatar>
           
           <div className={`sidebar_footer_profile_info_block ${expanded ? 'profile_expanded' : 'profile_collapsed'}`}>

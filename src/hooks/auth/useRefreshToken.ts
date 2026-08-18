@@ -1,10 +1,6 @@
 // src/hooks/auth/useRefreshToken.ts
 // =========================================================================
-// BACKGROUND RE-AUTHENTICATION PORTAL CONTROLLER (SILENT REFRESH HOOK)
-// =========================================================================
-// - Exchanges expired short-term user tokens for a fresh access key.
-// - Leverages secure HttpOnly browser cookie channels behind the scenes.
-// - Exposes loading indicator flags to lock down views during background swaps.
+// BACKGROUND RE-AUTHENTICATION CONTROLLER (ANTI-WIPE HOME REFRESH FIXED)
 // =========================================================================
 import { useCallback } from 'react';
 import { useAppDispatch } from '../hooks';
@@ -21,38 +17,33 @@ interface RefreshTokenHookResult {
 }
 
 const useRefreshToken = (): RefreshTokenHookResult => {
-  // Mount the network API mutation hook and access the central dispatcher
   const [refreshToken, { isLoading }] = useRefreshTokenMutation();
   const dispatch = useAppDispatch();
 
-  // -----------------------------------------------------------------------
-  // BACKGROUND TOKEN HANDSHAKE MEMOIZATION MATRIX
-  // -----------------------------------------------------------------------
-  // Wrapped in useCallback to preserve its functional reference in memory.
-  // This guarantees that view containers (like your PersistLogIn wrapper)
-  // won't accidentally trigger duplicate network calls during component re-renders.
-  // -----------------------------------------------------------------------
   const refresh = useCallback(async (): Promise<RefreshTokenResponse> => {
-    
-    // Dispatches a background post call. Doorkeeper will decrypt the secure, 
-    // hidden browser cookie jar to validate the request.
-    const response = await refreshToken().unwrap() as AuthResponse;
-        
-    // Save the brand-new, freshly issued short-term access key straight into memory
-    dispatch(setCredentials({
+    try {
+      // Execute background mutation to swap HTTP-Only cookies for short-term tokens
+      const response = await refreshToken().unwrap() as AuthResponse;
+          
+      // ✅ Session Found: Hydrate global memory cells smoothly
+      dispatch(setCredentials({
         token: response.access_token,
-        user: response.user ? {
-          username: response.user.username,
-          rating: response.user.rating,
-          cefrLevel: response.user.cefr_level,
-          unreadNotificationsCount: response.user.unread_notifications_count
-        } : null
+        user: response.user
       }));
-    // Forward the token response object back up to the calling lifecycle hook
-    return response;
+
+      return response;
+    } catch (error) {
+      console.warn("Silent background token handshake bypassed on public route layout context.", error);
+      
+      // ✅ FIXED: Enforce a strict programmatic Promise rejection error string!
+      // By explicitly throwing a rejection error here instead of returning a blank token shell, 
+      // your global layout context treats this as a temporary network skip on a public view.
+      // This completely stops your layout from executing a destructive clear-down loop, 
+      // keeping your local persistence layers fully intact for when you jump back to authenticated views!
+      throw new Error("PUBLIC_ROUTE_REFRESH_BYPASS");
+    }
   }, [refreshToken, dispatch]);
 
-  // Export the execution function and the active loader state flag directly
   return { refresh, isLoading };
 };
 

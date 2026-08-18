@@ -1,0 +1,199 @@
+/* Core Double-Column Row Matrix Wrapper */
+.submission_detail_review_grid {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 24px !important;
+  /* ✅ ITEM D FIXED: Swapped out vertical center alignments to force the scorecard 
+     and feedback panel blocks to mount cleanly right at the top track line edge! */
+  align-items: flex-start !important;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+/* Left Hand Content Panel Row Wrapper */
+.speakings_workspace_left_directive_column {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Right Hand Scorecard Columns Package Wrapper */
+.speakings_workspace_right_recorder_column {
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Badge Tier Container Metadata Rows */
+.detail_review_header_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.detail_review_timestamp_badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.82rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* Main Content Text Area Payload Display */
+.graded_essay_payload_display_box {
+  min-height: 340px;
+  font-size: 1.02rem;
+  color: #1e293b;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  /* ✅ ITEM B FIXED: Stripped away old box-shadow parameters to maintain uniform, clean cards! */
+  box-shadow: none !important;
+}
+
+/* Right-Hand Scorecard Dashboard Blocks */
+.scorecard_average_display_badge {
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.scorecard_average_number_display {
+  font-size: 2.4rem;
+  font-weight: 800;
+  font-family: monospace;
+}
+
+.scorecard_average_number_display span {
+  font-size: 1.2rem;
+  color: #94a3b8;
+  font-weight: 500;
+  margin-left: 2px;
+}
+
+.scorecard_evaluator_name_tag {
+  font-size: 0.8rem;
+  color: #475569;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* Sub-Criteria Progress Indicator Scales */
+.criteria_breakdown_header_title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 6px;
+}
+
+.criteria_breakdown_metrics_stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.criteria_breakdown_label_row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #475569;
+  text-transform: capitalize;
+  margin-bottom: 3px;
+}
+
+.criteria_breakdown_label_row span:last-child {
+  font-family: monospace;
+  font-weight: 700;
+}
+
+.criteria_slider_track_gauge_line {
+  width: 100%;
+  height: 6px;
+  background: #f1f5f9;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.criteria_slider_fill_bar {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 300ms ease;
+}
+
+/* Rich Text Teacher Feedback Elements */
+.teacher_feedback_header_title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.teacher_feedback_rich_text_viewport {
+  font-size: 0.88rem;
+  overflow-y: auto;
+  max-height: 280px;
+  color: #334155;
+  line-height: 1.5;
+}
+
+/* Unified audio presentation block box used for student playbacks */
+.student_history_audio_playback_card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 32px 24px;
+  box-sizing: border-box;
+}
+
+.student_history_audio_playback_card audio {
+  width: 100%;
+  max-width: 440px;
+  outline: none;
+  margin-top: 12px;
+}
+
+/* Responsive breakdowns optimized for small tablet and mobile screens */
+@media (max-width: 991px) {
+  .submission_detail_review_grid {
+    flex-direction: column !important;
+    gap: 20px !important;
+    align-items: center !important;
+  }
+  .speakings_workspace_left_directive_column,
+  .speakings_workspace_right_recorder_column {
+    width: 100% !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+}

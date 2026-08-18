@@ -246,52 +246,56 @@
    📱 MOBILE RESPONSIVE SIDEBAR OVERRIDE BREAKPOINT (Screens <= 900px Wide)
    ========================================================================= */
 @media screen and (max-width: 900px) {
+  /* ✅ FIXED: Keeps the sidebar column locked on the left margin tip */
   .account_sidebar_aside {
-    width: 100% !important;
-    min-width: 100% !important;
-    height: auto !important;
+    position: sticky !important;
+    top: 80px !important;
+    height: calc(100vh - 80px) !important;
     min-height: auto !important;
-    position: relative !important;
-    top: 0 !important;
+  }
+  
+  /* ✅ FIXED: Forces sidebar into a narrow icon column on mobile viewports */
+  .account_sidebar_aside.expanded_aside,
+  .account_sidebar_aside.collapsed_aside {
+    width: 60px !important;
+    min-width: 60px !important;
   }
 
   .sidebar_nav_frame {
-    border-right: none;
-    border-bottom: 1px solid #e2e8f0;
-    flex-direction: row; /* Horizontal menu strip layout for small screens! */
+    border-right: 1px solid #e2e8f0;
+    border-bottom: none;
+    flex-direction: column !important; 
     align-items: center;
-    justify-content: space-between;
-    padding: 10px 16px;
+    padding: 10px 4px;
   }
 
-  /* Hide headers and collapse toggle buttons on phones to save space */
-  .sidebar_upper_header {
-    padding: 0;
-  }
+  /* Hide textual elements and titles to look ultra-clean on phone frames */
   .sidebar_branding_logo_text,
-  .sidebar_toggle_collapse_btn {
+  .sidebar_toggle_collapse_btn,
+  .sidebar_item_text_label,
+  .sidebar_footer_profile_info_block {
     display: none !important;
   }
 
   .sidebar_items_unordered_list {
-    display: flex; /* Line up menu options in a clean horizontal strip row */
-    flex-direction: row;
-    gap: 8px;
-    margin: 0;
+    display: flex;
+    flex-direction: column !important;
+    gap: 12px;
+    margin: 10px 0 0 0;
     padding: 0;
+    width: 100%;
   }
 
   .sidebar_item_link_anchor {
-    padding: 8px 12px;
+    padding: 10px !important;
+    justify-content: center;
   }
 
-  /* ✅ FIXED: Keeps your user footer metadata profile block out of the way on small screens */
   .sidebar_account_footer_card {
     border-top: none;
-    padding: 0;
+    padding: 8px 0;
     background: transparent;
-  }
-  .sidebar_footer_profile_info_block {
-    display: none !important; /* Drops username text to stay ultra-compact on mobile layout frames */
+    justify-content: center;
+    margin-top: auto; /* Pins avatar to the absolute bottom corner */
   }
 }

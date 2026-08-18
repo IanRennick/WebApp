@@ -1,0 +1,13 @@
+.custom-profile-submissions-table tbody tr {
+  background-color: #ffffff;
+  transition: background-color 120ms ease;
+}
+
+.custom-profile-submissions-table tbody tr:hover {
+  background-color: #f8fafc !important;
+}
+
+.custom-profile-submissions-table th,
+.custom-profile-submissions-table td {
+  vertical-align: middle !important;
+}

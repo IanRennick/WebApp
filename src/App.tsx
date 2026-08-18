@@ -2,10 +2,6 @@
 // =========================================================================
 // CENTRAL APPLICATION ROUTING MATRIX INTERFACE (MASTER ROUTER)
 // =========================================================================
-// - Defines the entry points and navigation pathways for the whole app.
-// - Sets up the structural core that maps browser URLs to specific page views.
-// - Separates open public pathways from restricted, secure student zones.
-// =========================================================================
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
@@ -20,55 +16,48 @@ import DashboardLayout from './components/layout/dashboardLayout/DashboardLayout
 import StatsPage from './pages/stats/StatsPage';
 import WritingsPage from './pages/writings/WritingsPage';
 import SpeakingsPage from './pages/speakings/SpeakingsPage';
+import SubmissionsPage from './pages/submissions/SubmissionsPage';
+import SettingsPage from './pages/settings/SettingsPage';
 
 const App: React.FC = () => {
   return (
     <Routes>
-      {/* MASTER APPLICATION SHELL CONTAINER
-          Wraps all navigation nodes inside the universal Layout framework. 
-          This allows structural elements like your upcoming navbar to stay mounted 
-          consistently while interior screen templates switch out underneath. */}
       <Route path="/" element={<Layout />}>
         
         {/* =================================================================
-            1. OPEN PUBLIC NAVIGATION ENDPOINTS
-            =================================================================
-            Pathways accessible to anyone browsing the web application. 
-            Contains standard home index gateways and credentials forms portals. 
-            ----------------------------------------------------------------- */}
-        <Route index element={<HomePage />} />
-        <Route path="/logIn" element={<LogInPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-
-        {/* =================================================================
-            2. RESTRICTED PRIVATE STUDENT ENCLAVES (ROUTE SHIELD ENVELOPE)
-            =================================================================
-            Nests private dashboards behind layers of security logic gate keepers.
-            ----------------------------------------------------------------- */}
-        {/* INTERCEPTOR LAYER A: SESSION RECOVERY SHELL
-            Intercepts initial page reboots to silently check the browser's 
-            encrypted cookie drawer for valid refresh tokens before rendering views. */}
+            🔄 CENTRAL APPLICATION LIFECYCLE RECOVERY SHELL
+            Positioned at the root to seamlessly restore authorized user sessions 
+            on hard refreshes across ALL pages, public and private alike!
+            ================================================================= */}
         <Route element={<PersistLogIn />}>
-          
-          {/* INTERCEPTOR LAYER B: ROUTE GUARD SHIELD
-              Asserts the presence of an active token in state memory. If empty, 
-              it blocks access and throws the user straight back to the login screen. */}
+
+          {/* 🌐 1. OPEN PUBLIC PATHWAYS (ACCESSIBLE TO GUESTS & STUDENTS) */}
+          <Route index element={<HomePage />} />
+          <Route path="/logIn" element={<LogInPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+
+          {/* =================================================================
+              🔒 2. RESTRICTED SECURITY ROUTE SHIELD GATES
+              Blocks unauthenticated guests from bypassing study enclaves.
+              ================================================================= */}
           <Route element={<RequireAuth />}>
             
-            {/* Private Student Dashboard Workspaces */}
+            {/* Standard Private Study Workspaces */}
             <Route path="/quiz" element={<QuizPage />} />
-
             <Route path="/writings" element={<WritingsPage />} />
             <Route path="/speakings" element={<SpeakingsPage />} />
 
-            {/* 🔒 PROTECTED DASHBOARD PAGES: Automatically wrap inside your Sidebar Layout! */}
+            {/* Sidebar-Enclosed Account Account Portals */}
             <Route element={<DashboardLayout />}>
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/stats" element={<StatsPage />} />
+              <Route path="/submissions" element={<SubmissionsPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
             </Route>
             
           </Route>
         </Route>
+
       </Route>
     </Routes>
   );

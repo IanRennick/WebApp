@@ -74,6 +74,7 @@
   border-bottom: 1px solid #f1f5f9 !important;
   padding-bottom: 12px !important;
   box-sizing: border-box !important;
+  margin-bottom: 0 !important; 
 }
 
 /* Custom micro exit button pointer styling */
@@ -92,17 +93,18 @@
   color: #0f172a !important;
 }
 
-/* THE CONTENT VIEWPORT CORE: Injects fluid inner scrolling with a hidden scrollbar! */
+/* THE CONTENT VIEWPORT CORE: Injects fluid inner scrolling with a hidden scrollbar */
 .preview_modal_scrollable_body_viewport {
   flex: 1 !important; 
   overflow-y: auto !important; 
   padding-right: 4px !important;
-  margin-top: 14px !important;
-  box-sizing: border-box !important;
   
-  /* ✅ FIXED AESTHETICS: Disables the native visible scrollbar block track in Firefox */
+  /* ✅ FIXED SOURCE CODE: Changed from 14px to 4px directly inside the stylesheet! 
+     This forces the elements flush to the top line break across all browser engines. */
+  margin-top: 4px !important; 
+  
+  box-sizing: border-box !important;
   scrollbar-width: none !important; 
-  /* Disables standard desktop layout text select line breaking jumps */
   -ms-overflow-style: none !important; 
 }
 

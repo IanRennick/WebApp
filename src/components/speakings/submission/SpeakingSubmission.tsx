@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import { Mic, Square, CheckCircle, MessageSquare, Flag } from 'lucide-react';
 import { ExamPromptNode } from '../../../features/prompts/promptsApiSlice';
-import { useAudioRecorder } from '../../../hooks/speakings/useAudioRecorder';
+import { useAudioRecorder } from '../../../hooks/submissions/useAudioRecorder';
 import { useCreateNewSubmissionMutation } from '../../../features/submissions/submissionsApiSlice';
 import { CommentSection } from '../../comments/CommentSection';
 import './speakingSubmission.css';

@@ -2,10 +2,6 @@
 // =========================================================================
 // CENTRAL APPLICATION NETWORK ROUTING LAYER (RTK QUERY BASE APISLICE)
 // =========================================================================
-// - Sets up the base address configuration for all outgoing server contacts.
-// - Automatically attaches active access keys to the headers of outgoing calls.
-// - Intercepts expired session signals (403) to swap tokens behind the scenes.
-// =========================================================================
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import { setCredentials, removeCredentials } from '../../features/auth/authSlice';
@@ -20,26 +16,14 @@ interface RefreshResponse {
   access_token: string;
 }
 
-// -------------------------------------------------------------------------
-// 1. STANDARD DATA FETCH TUNING (BASE QUERY LAYER)
-// -------------------------------------------------------------------------
-// Configures the default network behavior for standard outbound requests.
-// Automatically grabs access tokens from memory and structures standard headers.
-// -------------------------------------------------------------------------
 const baseQuery = fetchBaseQuery({
-  // Pulls the backend API gateway URL from local environment configurations
   baseUrl: import.meta.env.VITE_BASE_URL,
-  
-  // Forces the client browser to automatically pass along secure, encrypted 
-  // HttpOnly refresh token cookies on all connection attempts
   credentials: 'include', 
 
   prepareHeaders: (headers, { getState }) => {
-    // Read the current access token string straight out of memory
     const state = getState() as RootState;
     const token = state.auth.token;
 
-    // If an access token is active, inject it into the request authorization line
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }
@@ -47,33 +31,25 @@ const baseQuery = fetchBaseQuery({
   }
 });
 
-// -------------------------------------------------------------------------
-// 2. AUTOMATED BACKSTAGE RE-AUTHENTICATION INTERCEPTOR LAYER
-// -------------------------------------------------------------------------
-// Wraps around all outbound API calls like an intelligent traffic supervisor.
-// If a user request fails because their short-term access token has expired,
-// it pauses the user's interface, sends a silent refresh post to the server,
-// captures the newly issued token, updates memory, and retries the call.
-// -------------------------------------------------------------------------
 const baseQueryWithReauth: BaseQueryFn<
   string | FetchArgs,
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
 
-  // Execute the user's intended original network connection attempt
-  let result = await baseQuery(args, api, extraOptions);
+  // ✅ FIXED: Read the active access token straight into local function scope!
+  const state = api.getState() as RootState;
+  const currentToken = state.auth.token;
 
+  let result = await baseQuery(args, api, extraOptions);
   const errorObj = result?.error as any;
 
-  // Catch 403 Forbidden signals indicating the current access key has expired
   if (errorObj?.status === 403 || errorObj?.originalStatus === 403) {
     
-    // Fire a background POST call to swap the stored secure cookie for a new access token
     const refreshResult = await baseQuery({
       url: '/oauth/token',
       method: 'POST',
-      credentials: 'include', // Guarantees the browser sends the hidden cookie to the token route
+      credentials: 'include', 
       body: {
         client_id: import.meta.env.VITE_CLIENT_ID,
         client_secret: import.meta.env.VITE_CLIENT_SECRET,
@@ -81,33 +57,39 @@ const baseQueryWithReauth: BaseQueryFn<
       }
     }, api, extraOptions);
 
-    if (refreshResult?.data) {
+     if (refreshResult?.data) {
       const refreshData = refreshResult.data as RefreshResponse;
-      
-      // Save the freshly issued short-term access token straight back into memory
-      api.dispatch(setCredentials({ token: refreshData.access_token }));
-
-      // Retry the original failed connection attempt seamlessly with the updated key
+      api.dispatch(setCredentials({ token: refreshData.access_token } as any));
       result = await baseQuery(args, api, extraOptions);
     } else {
-      // If the refresh cookie is dead or missing, clean out the data store and force a logout
-      api.dispatch(removeCredentials());
+      // ✅ FIXED: Read the active physical window path location straight out of the browser!
+      const currentBrowserPath = window.location.pathname;
+      const targetUrl = typeof args === 'string' ? args : args.url;
+      
+      // ✅ BREAKING THE RE-RENDER PURGE LOOP:
+      // We enforce an unbreakable security wall: if a student is sitting on the public 
+      // Homepage ('/'), the system is explicitly FORBIDDEN from wiping out their credentials cache!
+      if (
+        currentBrowserPath !== '/' &&
+        targetUrl && 
+        !targetUrl.includes('/oauth/token') && 
+        currentToken
+      ) {
+        api.dispatch(removeCredentials());
+      }
     }
   }
 
-  // Return the final successful data result (or clean server error) to the component layout
   return result;
 };
 
 // -------------------------------------------------------------------------
-// 3. MASTER API CONTAINER SYSTEM
-// -------------------------------------------------------------------------
-// Generates the core network node shell. Future feature pages (like quizzes,
-// weaknesses, or users) will inject their individual custom endpoints into 
-// this central point dynamically as your codebase grows.
+// 3. CENTRAL MASTER API REGISTER CONTAINER
 // -------------------------------------------------------------------------
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Puzzle'],
+  // ✅ FIXED CACHE SYSTEM: Registered 'Notification' straight into your tagTypes array loop.
+  // This authorizes your new notification mutations to flush and update counts cleanly!
+  tagTypes: ['Puzzle', 'Notification', 'UserProfile'],
   endpoints: () => ({}) 
 });
